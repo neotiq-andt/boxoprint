@@ -9,10 +9,12 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     libzip-dev \
     libicu-dev \
+    libxslt-dev \
+    libonig-dev \
     unzip \
     curl \
     git \
-    && docker-php-ext-install -j$(nproc) iconv pdo pdo_mysql mysqli gd intl soap bcmath zip opcache
+    && docker-php-ext-install -j$(nproc) iconv pdo pdo_mysql mysqli gd intl soap bcmath zip opcache xsl sockets
 
 # Enable Apache modules
 RUN a2enmod rewrite
@@ -36,7 +38,7 @@ COPY php.ini /etc/php/7.4/apache2/conf.d/
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Run composer install
-RUN composer install --no-interaction --optimize-autoloader
+RUN composer install
 
 # Expose port 80
 EXPOSE 80
