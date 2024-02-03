@@ -1,0 +1,278 @@
+<?php
+    $neotiqHelperData = $this->helper('Neotiq\Neotiq\Helper\Data');
+    $neotiqBoxprintHelperData = $this->helper('Neotiq\Boxprint\Helper\Data');
+    $neotiqBoxprintHelperCookie = $this->helper('Neotiq\Boxprint\Helper\Cookie');
+    $showBoxImg = false;
+    $showBoxData = true;
+    $showBoxSVG = true;
+    $cookieName = \Neotiq\Boxprint\Helper\Cookie::CONNECTOR_COOKIE_NAME;
+    $cookieLifetime = \Neotiq\Boxprint\Helper\Cookie::DEFAULT_COOKIE_LIFETIME;
+    $cookiePath = $neotiqBoxprintHelperData->createModel('Magento\Framework\Session\SessionManagerInterface')->getCookiePath();
+    $cookieDomain = $neotiqBoxprintHelperData->createModel('Magento\Framework\Session\SessionManagerInterface')->getCookieDomain();
+	$symbol = $neotiqBoxprintHelperData->getSymbol();
+	$customerSession = $neotiqBoxprintHelperData->createModel('Magento\Customer\Model\Session');
+	$customer_email = '';
+    if($customerSession->isLoggedIn()) {
+        $customer_email =  $customerSession->getCustomer()->getEmail();
+    }
+    $boxo_id = (int)$block->getRequest()->getParam('boxo');
+?>
+<?php if($boxo_id && $neotiqBoxprintHelperData->checckCustomerWorkspaceById($boxo_id)):?>
+    <div class="product-boxoprint">
+        <?php if($neotiqBoxprintHelperData->getWorkspaceById($boxo_id)):?>
+            <?php $baseData = $neotiqBoxprintHelperData->getBoxprintBaseById($boxo_id);?>
+            <div class="boxprint-data">
+                <?php if($showBoxData):?>
+                    <div class="boxprint-properties">
+                        <div class="properties">
+                            <div class="key">
+                                <?php echo __('Dimension: ') ?>
+                            </div>
+                            <div class="value">
+                                <?php $k= 1;foreach ($baseData['properties'] as $key => $value):?>
+                                    <span id="<?php echo 'boxopv-'.$key?>"><?php echo $value?></span>
+                                    <?php if($k !=  count($baseData['properties'])):?>
+                                        <span>/</span>
+                                    <?php endif;?>
+                                    <?php $k++; endforeach;?>
+                            </div>
+                        </div>
+                        <div class="view-all"><?php echo __('Des détails'); ?></div>
+                    </div>
+                <?php endif;?>
+           
+				<?php if($showBoxSVG && !$neotiqBoxprintHelperData->getWorkspaceById($boxo_id)->getData('image_base')):?>
+                    <div class="boxprint-svg">
+                        <?php echo $baseData['svg'];?>
+                    </div>	
+                <?php endif;?>
+            </div>
+        <?php endif;?>
+        <?php if($neotiqBoxprintHelperData->getWorkspaceById($boxo_id)->getData('image_base')):?>
+            <div class="boxoprint-img">
+                <img src="<?php echo trim($neotiqBoxprintHelperData->getWorkspaceById($boxo_id)->getData('image_base'),'"') ?>" alt="<?php echo $neotiqBoxprintHelperData->getWorkspaceById($boxo_id)->getLabel(); ?>" />
+            </div>
+        <?php elseif ($neotiqBoxprintHelperData->getBoxImageById($boxo_id) && $showBoxImg):?>
+            <div class="boxoprint-img">
+                <img src="<?php echo $neotiqBoxprintHelperData->getBoxImageById($boxo_id)?>" alt="<?php echo $neotiqBoxprintHelperData->getWorkspaceById($boxo_id)->getLabel(); ?>" />
+            </div>
+        <?php endif;?>
+        <button type="submit" title="<?php echo __('CONFIGURER 3D')?>" class="action primary" id="product-configbox-button">
+            <span><?=  __('CONFIGURER 3D')?></span>
+        </button>
+    </div>
+<?php endif;?>
+<?php if((!$boxo_id || ($boxo_id && !$neotiqBoxprintHelperData->checckCustomerWorkspaceById($boxo_id))) && $neotiqBoxprintHelperData->getWorkspaceByProduct()):?>
+<div class="product-boxoprint">
+    <?php if($neotiqBoxprintHelperData->getBoxprintBaseByProduct()):?>
+        <?php $baseData = $neotiqBoxprintHelperData->getBoxprintBaseByProduct();?>
+        <div class="boxprint-data">
+            <?php if($showBoxData):?>
+                <div class="boxprint-properties">
+                    <div class="properties">
+                        <div class="key">
+                           <?php echo __('Dimension: ') ?>
+                        </div>
+                        <div class="value">
+                            <?php $k= 1;foreach ($baseData['properties'] as $key => $value):?>
+                                <span id="<?php echo 'boxopv-'.$key?>"><?php echo $value?></span>
+                                <?php if($k !=  count($baseData['properties'])):?>
+                                    <span>/</span>
+                                <?php endif;?>
+                                <?php $k++; endforeach;?>
+                        </div>
+                    </div>
+                    <div class="view-all"><?php echo __('Des détails'); ?></div>
+                </div>
+            <?php endif;?>
+		
+            <?php if($showBoxSVG && !$neotiqBoxprintHelperData->getWorkspaceByProduct()->getData('image_base')):?>
+                <div class="boxprint-svg">
+                    <?php echo $baseData['svg'];?>
+                </div>
+            <?php endif;?>
+        </div>
+    <?php endif;?>
+    <?php if($neotiqBoxprintHelperData->getWorkspaceByProduct()->getData('image_base')):?>
+        <div class="boxoprint-img">
+            <img src="<?php echo trim($neotiqBoxprintHelperData->getWorkspaceByProduct()->getData('image_base'),'"') ?>" alt="<?php echo $neotiqBoxprintHelperData->getWorkspaceByProduct()->getLabel(); ?>" />
+        </div>
+    <?php elseif ($neotiqBoxprintHelperData->getBoxImageByProduct() && $showBoxImg):?>
+        <div class="boxoprint-img">
+            <img src="<?php echo $neotiqBoxprintHelperData->getBoxImageByProduct()?>" alt="<?php echo $neotiqBoxprintHelperData->getWorkspaceByProduct()->getLabel(); ?>" />
+        </div>
+    <?php endif;?>
+    <button type="submit" title="<?php echo __('CONFIGURER 3D')?>" class="action primary" id="product-configbox-button">
+        <span><?=  __('CONFIGURER 3D')?></span>
+    </button>
+</div>
+<?php endif;?>
+<?php if($boxo_id || $neotiqBoxprintHelperData->getBoxprintBaseByProduct()):?>
+<?php
+    $box_cookie= [['productId'=>$neotiqHelperData->getCurrentProduct()->getId(),'workspaces'=>[$neotiqBoxprintHelperData->getWorkspaceByProduct()->getWorkspaceId()],'workspace'=>$neotiqBoxprintHelperData->getWorkspaceByProduct()->getWorkspaceId()]];
+    $box_cookie_en = json_encode($box_cookie);
+?>
+<div id="mddq-boxoprint" class="mddq-boxoprint mddq-popup">
+    <div class="mddq-boxoprint-popup">
+        <span class="mddq-boxoprint-close hidden"></span>
+        <div class="mddq-boxoprint-popup-content">
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    require(['jquery','Magento_Ui/js/modal/confirm','domReady!','mage/translate','mage/cookies'], function($, confirmation){
+		window.onmessage = function(e) {
+			if (e.data == 'closeIframe') {
+				 $('#mddq-boxoprint').removeClass('active');
+				 $('body.catalog-product-view').removeClass('mddq-popup-show');
+			}
+			if (e.data.name == 'callBackSaveProject') {
+				var formData = e.data.formData;
+				$("#box-workspace").val(formData.workspace_id);
+				$("#box-dataprice").val(formData.price);
+				$("#boxopv-l").html(formData.l);
+				$("#boxopv-w").html(formData.w);
+				$("#boxopv-h").html(formData.h);
+				$('.product-info-main .price-box .price').html(formData.price + ' €');
+                $('.boxoprint-img img').attr('src',formData.image_base);
+				if($('.boxprint-svg').length > 0){
+					$('.boxprint-svg').replaceWith('<div class="boxoprint-img"><img src="'+formData.image_base+'"/></div>');
+				}
+			}
+		};
+        $('.product-boxoprint .action').click(function(e){
+            e.preventDefault();
+			var dq_workspace_id = $('#box-workspace').val();
+			var productId = '<?php echo $neotiqHelperData->getCurrentProduct()->getId();?>';
+			var productName = "<?php echo $neotiqHelperData->getCurrentProduct()->getName();?>";
+            var box_url = '<?php echo $neotiqBoxprintHelperData->getBoxprintUrl()?>' + dq_workspace_id +'?productName='+productName;
+			<?php if($customer_email):?>
+				box_url = '<?php echo $neotiqBoxprintHelperData->getBoxprintUrl()?>' + dq_workspace_id +'?productName='+productName+'&customerEmail='+'<?php echo $customer_email;?>';
+			<?php endif;?>
+            var data = {productId:productId};
+            $.ajax({
+                type: "GET",
+                url: box_url,
+                data: data,
+                showLoader: true,
+                dataType: 'html',
+                success: function(responseData,textStatus, xhr)
+                {
+                    $('#mddq-boxoprint').addClass('active');
+                    $('body.catalog-product-view').addClass('mddq-popup-show');
+                    $('#mddq-boxoprint .mddq-boxoprint-popup-content').html('');
+                    $('#mddq-boxoprint .mddq-boxoprint-popup-content').append('<iframe name="popup_iframe" id="popup_iframe" src="'+ box_url +'" frameborder="0" scrolling="no"></iframe>');
+                    var dstFrame = document.getElementById('popup_iframe');
+                    //dstFrame.src = box_url;
+                    var dstDoc = dstFrame.contentDocument || dstFrame.contentWindow.document;
+                    //var iFrame = $('#popup_iframe');
+                    //var iFrameDoc = iFrame[0].contentDocument || iFrame[0].contentWindow.document;
+                    dstDoc.srcdoc = responseData;
+                    dstDoc.close();
+
+                    $('#mddq-boxoprint').on('click', function (e) {
+                        var mdq_arget = $(e.target);
+                        if (mdq_arget.hasClass('mddq-boxoprint') || mdq_arget.hasClass('mddq-boxoprint-close')) {
+                            confirmation({
+                                title: 'Souhaitez vous fermer cette fenêtre ?',
+                                content: '',
+                                actions: {
+                                    confirm: function () {
+
+                                    },
+
+                                    cancel: function () {
+                                        return false;
+                                    }
+                                },
+                                buttons: [{
+                                    text: $.mage.__('Non'),
+                                    class: 'action-secondary action-dismiss',
+                                    click: function (event) {
+                                        this.closeModal(event);
+                                    }
+                                }, {
+                                    text: $.mage.__('Oui'),
+                                    class: 'action primary action-accept',
+                                    click: function (event) {
+                                        $('#mddq-boxoprint').removeClass('active');
+                                        $('body.catalog-product-view').removeClass('mddq-popup-show');
+                                        this.closeModal(event);
+                                    }
+                                }
+                                ]
+                            });
+                        }
+                    });
+
+                },
+                error: function (jqXHR, exception, error)
+                {
+                    var msg = '';
+                    if (jqXHR.status === 0) {
+                        msg = 'Not connect.\n Verify Network.';
+                    } else if (jqXHR.status == 404) {
+                        msg = 'Requested page not found. [404]';
+                    } else if (jqXHR.status == 500) {
+                        msg = 'Internal Server Error [500].';
+                    } else if (exception === 'parsererror') {
+                        msg = 'Requested JSON parse failed.';
+                    } else if (exception === 'timeout') {
+                        msg = 'Time out error.';
+                    } else if (exception === 'abort') {
+                        msg = 'Ajax request aborted.';
+                    } else {
+                        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                    }
+                    console.log(msg);
+                    // $('#status').empty();
+                    // $('#status').show();
+                    // $("#status").attr("class", "error");
+                    // $('#status').html("▼ " + msg).addClass('error');
+                    // var div = document.getElementById('status');
+                    // div.innerHTML += " ▼";
+                    // div.innerHTML += jqXHR.responseText;
+                }
+            });
+        });
+        $('.product-boxoprint .view-all').click(function(e){
+            e.preventDefault();
+            var box_view_all = '<?php echo $this->getUrl('mdqboxprint/index/info')?>';
+            var productId = '<?php echo $neotiqHelperData->getCurrentProduct()->getId()?>';
+            var box_workspace_id = $('#box-workspace').val();
+            $.ajax({
+                type: "POST",
+                url: box_view_all,
+                data: {
+                    productId:productId,
+                    workspaceId:box_workspace_id
+                },
+                showLoader: true,
+                dataType: 'json',
+                success: function(responseData)
+                {
+                    if(responseData.mdq_boxprint_info!='') {
+                        confirmation({
+                            title: responseData.mdq_boxprint_name,
+                            content: responseData.mdq_boxprint_info,
+                            buttons: [],
+                            modalClass: 'boxprint-popup-viewall',
+                        });
+                    }
+                }
+            });
+        });
+
+        var cookieName = '<?php echo $cookieName?>';
+        if (!$.mage.cookies.get(cookieName)) {
+         //   var cookieLifetime = '<?php echo $cookieLifetime;?>';
+            //var cookieDomain = '<?php echo $cookieDomain ?>';
+            //var cookiePath = '<?php echo $cookiePath ?>';
+           // var cookieValue = '<?php echo $box_cookie_en ?>';
+           // var cookieExpires = new Date(new Date().getTime() + cookieLifetime * 1000);
+           // $.mage.cookies.set(cookieName,cookieValue, {expires: cookieExpires, path:cookiePath, domain:cookieDomain});
+        }
+    });
+</script>
+<?php endif;?>

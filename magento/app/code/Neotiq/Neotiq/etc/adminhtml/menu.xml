@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright ducdevphp@gmail.com
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Neotiq_Neotiq::neotiq" title="Neotiq" module="Neotiq_Neotiq" sortOrder="10" resource="Neotiq_Neotiq::neotiq"/>
+        <add id="Neotiq_Neotiq::neotiq_config" parent="Neotiq_Neotiq::neotiq" title="Neotiq Configuration" module="Neotiq_Neotiq" sortOrder="15" resource="Neotiq_Neotiq::neotiq_config"/>
+        <add id="Neotiq_Neotiq::neotiq_settings" parent="Neotiq_Neotiq::neotiq_config" title="Neotiq Settings" module="Neotiq_Neotiq" sortOrder="20" resource="Neotiq_Neotiq::neotiq_settings" action="adminhtml/system_config/edit/section/neotiq_settings" />
+   </menu>
+</config>

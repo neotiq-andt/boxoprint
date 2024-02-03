@@ -1,0 +1,76 @@
+<?php
+namespace Neotiq\BoxprintAdmin\Controller\Adminhtml\Template;
+
+class Edit extends \Magento\Backend\App\Action
+{
+    const ADMIN_RESOURCE = 'Neotiq_BoxprintAdmin::boxprint';
+
+    protected $coreRegistry;
+
+    protected $resultPageFactory;
+
+    protected $templateFactory;
+
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\Framework\View\Result\PageFactory $resultPageFactory,
+        \Magento\Framework\Registry $coreRegistry,
+        \Neotiq\BoxprintAdmin\Model\TemplateFactory $templateFactory
+    ) {
+        $this->resultPageFactory = $resultPageFactory;
+        $this->coreRegistry = $coreRegistry;
+        $this->templateFactory = $templateFactory;
+        parent::__construct($context);
+    }
+
+    public function _isAllowed()
+    {
+        return $this->_authorization->isAllowed('Neotiq_BoxprintAdmin::boxprint');
+    }
+
+
+    protected function _initAction()
+    {
+        $resultPage = $this->resultPageFactory->create();
+        $resultPage->setActiveMenu('Neotiq_BoxprintAdmin::template')
+            ->addBreadcrumb(__('Templates'), __('Templates'))
+            ->addBreadcrumb(__('Manage Templates'), __('Manage Templates'));
+
+        return $resultPage;
+    }
+
+
+    public function execute()
+    {
+        $id = $this->getRequest()->getParam('template_id');
+        $model = $this->templateFactory->create();
+
+        if ($id) {
+            $model->load($id);
+            if (!$model->getId()) {
+                $this->messageManager->addError(__('This template no longer exists.'));
+                $resultRedirect = $this->resultRedirectFactory->create();
+
+                return $resultRedirect->setPath('*/*/');
+            }
+        }
+
+        $data = $this->_getSession()->getFormData(true);
+        if (!empty($data)) {
+            $model->setData($data);
+        }
+
+        $this->coreRegistry->register('boxoprint_template_data', $model);
+
+        $resultPage = $this->_initAction();
+        $resultPage->addBreadcrumb(
+            $id ? __('Edit Template') : __('New Template'),
+            $id ? __('Edit Template') : __('New Template')
+        );
+        $resultPage->getConfig()->getTitle()->prepend(__('Templates'));
+        $resultPage->getConfig()->getTitle()
+            ->prepend($model->getId() ? $model->getName() : __('New Template'));
+
+        return $resultPage;
+    }
+}

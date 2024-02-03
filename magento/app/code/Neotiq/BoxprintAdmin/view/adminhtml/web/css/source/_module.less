@@ -1,0 +1,36 @@
+& when (@media-common = true) {
+    .product-boxoprint,.product-boxoprint-edit {
+        text-decoration: underline;
+        cursor:pointer;
+    }
+
+    .boxprint-popup-viewall {
+        .modal-content {
+            overflow-y: scroll;
+            height: 75vh;
+        }
+        .boxprint-popup-content {
+            .front-left {
+                display: flex;
+                display: -webkit-flex;
+                display: -moz-flex;
+                display: -o-flex;
+                justify-content: center;
+                align-items: center;
+                border-bottom: 1px solid #ddd;
+                .c-left {
+                    word-break: break-all;
+                    padding: 10px 25px;
+                    width: 20%;
+                    img {
+                        width:100px;
+                    }
+                }
+                .c-properties {
+                    width: 80%;
+                    word-break: break-all;
+                }
+            }
+        }
+    }
+}

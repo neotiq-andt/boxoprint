@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="logo">
+            <arguments>
+                <argument name="logo_width" xsi:type="number">200</argument>
+            </arguments>
+        </referenceBlock>
+
+        <referenceContainer name="header-wrapper">
+            <container name="header.left" htmlClass="header-left" htmlTag="div" before="-" />
+            <container name="header.content" htmlClass="header-content" htmlTag="div" after="header-left" />
+            <container name="header.right" htmlClass="header-right" htmlTag="div" after="-">
+                <container name="header.block.custom" htmlClass="header-block-faq" htmlTag="div">
+                    <block class="Magento\Cms\Block\Block" name="header.block.faq.link" before="-">
+                        <arguments>
+                            <argument name="block_id" xsi:type="string">block_header_faq_link</argument>
+                        </arguments>
+                    </block>
+                </container>
+                <container name="header.link.account" htmlClass="header-link-account" htmlTag="div" after="minicart">
+                    <block class="Magento\Framework\View\Element\Template"
+                           name="add.links"
+                           template="Magento_Theme::html/top-links.phtml"
+                    />
+                </container>
+            </container>
+        </referenceContainer>
+        <move element="logo" destination="header.left" after="-"/>
+        <move element="minicart" destination="header.right" after="-"/>
+        <move element="top.search" destination="header.content" after="-"/>
+        <referenceContainer name="footer-container">
+            <container name="footer.container.contain" htmlClass="contain" htmlTag="div">
+                <block class="Magento\Cms\Block\Block" name="block.footer.info" before="-">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">block_footer_info</argument>
+                    </arguments>
+                </block>
+            </container>
+			<container name="footer.container.copyright" htmlClass="copyright contain" htmlTag="div">
+                <block class="Magento\Cms\Block\Block" name="block.footer.copyright" before="-">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">block_footer_copyright</argument>
+                    </arguments>
+                </block>
+            </container>
+        </referenceContainer>
+
+
+<!--        <move element="navigation.sections" destination="header-wrapper" after="logo"/>-->
+<!--        <move element="top.links" destination="header-wrapper" after="navigation.sections"/>-->
+
+        <referenceBlock name="store.links" remove="true"/>
+        <referenceBlock name="top.links" remove="true" />
+        <referenceBlock name="catalog.compare.link" remove="true"/>
+        <referenceBlock name="header.panel" remove="true"/>
+        <referenceBlock name="footer" remove="true"/>
+		<referenceBlock name="copyright" remove="true"/>
+
+        <referenceContainer name="header-wrapper">
+            <referenceBlock name="navigation.sections" remove="true" />
+        </referenceContainer>
+    </body>
+</page>

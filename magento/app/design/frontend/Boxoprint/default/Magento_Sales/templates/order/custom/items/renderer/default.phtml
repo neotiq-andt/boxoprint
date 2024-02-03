@@ -1,0 +1,134 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var  $block \Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer */
+$_item = $block->getItem();
+$neotiqHelperData = $this->helper('Neotiq\Neotiq\Helper\Data');
+$neotiqBoxprintHelperData = $this->helper('Neotiq\Boxprint\Helper\Data');
+?>
+<tr id="order-item-row-<?= (int) $_item->getId() ?>">
+    <td data-th="<?= $block->escapeHtmlAttr(__('Product Name')) ?>" class="product-info" style="width: 25%">
+        <strong class="product name product-item-name"><?= $block->escapeHtml($_item->getName()) ?></strong>
+        <div class="item-info">
+            <div class="sku"><span><?php echo __('Référence: ')?></span><?php echo $_item->getProduct()->getSku();?></div>
+            <div class="col price"><span><?php echo __('Prix: ')?></span><?= $block->getItemPriceHtml() ?></div>
+            <div class="col qty">
+                <span><?php echo __('Quantité: ')?></span>
+                <?php if ($block->getItem()->getQtyOrdered() > 0) : ?>
+                    <span><?= (float) $block->getItem()->getQtyOrdered() ?></span>
+                <?php endif; ?>
+            </div>
+            <div class="col subtotal">
+                <span><?php echo __('Sous-total: ')?></span>
+                <?= $block->getItemRowTotalHtml() ?>
+            </div>
+            <?php if ($_options = $block->getItemOptions()) : ?>
+                <dl class="item-options">
+                    <?php foreach ($_options as $_option) : ?>
+                        <dt><?= $block->escapeHtml($_option['label']) ?></dt>
+                        <?php if (!$block->getPrintStatus()) : ?>
+                            <?php $_formatedOptionValue = $block->getFormatedOptionValue($_option) ?>
+                            <dd>
+                                <?php if (isset($_formatedOptionValue['full_view'])) : ?>
+                                    <?= $block->escapeHtml($_formatedOptionValue['full_view'], ['a']) ?>
+                                <?php else : ?>
+                                    <?=$block->escapeHtml($_formatedOptionValue['value'], ['a']) ?>
+                                <?php endif; ?>
+                            </dd>
+                        <?php else : ?>
+                            <dd>
+                                <?= /* @noEscape */ nl2br($block->escapeHtml($_option['print_value'] ?? $_option['value'])) ?>
+                            </dd>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </dl>
+            <?php endif; ?>
+            <?php $addtInfoBlock = $block->getProductAdditionalInformationBlock(); ?>
+            <?php if ($addtInfoBlock) : ?>
+                <?= $addtInfoBlock->setItem($_item)->toHtml() ?>
+            <?php endif; ?>
+            <?= $block->escapeHtml($_item->getDescription()) ?>
+            <?php if($_item->getData('mdq_workspaceid')):?>
+                <?php
+                $workspace = $neotiqBoxprintHelperData->getWorkspaceById($_item->getData('mdq_workspaceid'));
+                ?>
+                <?php if($workspace && $workspace->getImage()):?>
+                    <?php $image_src = $neotiqBoxprintHelperData->getBaseUrlByType(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA).\Neotiq\Boxprint\Helper\Data::BOX_SAVE_PATH.'/'.$workspace->getImage();?>
+                    <image src="<?php echo $image_src ?>" alt="<?php echo $workspace->getLabel();?>" />
+                <?php endif;?>
+            <?php endif;?>
+        </div>
+    </td>
+    <td data-th="<?= $block->escapeHtmlAttr(__('Detail')) ?>"  class="boxprint-info" style="width:75%">
+        <?php if($_item->getData('mdq_workspaceid')):?>
+            <?php
+                $workspace = $neotiqBoxprintHelperData->getWorkspaceById($_item->getData('mdq_workspaceid'));
+                $workspaceFront = $neotiqBoxprintHelperData->getBoxprintFrontConfigById($_item->getData('mdq_workspaceid')); ?>
+            <?php if($workspaceFront):?>
+                <table class="boxprint-content" style="width:100%;table-layout: fixed;overflow-wrap: break-word;">
+                    <?php foreach ($workspaceFront as $fo):?>
+                        <?php if($fo['layer_type'] == 'text'):?>
+                        <tbody>
+                            <tr class="front-left" style="width: 100%">
+                                <?php if(isset($fo['properties']['text'])):?>
+                                    <td class="c-left" style="width: 25%"><?php echo $fo['properties']['text']?></td>
+                                <?php endif;?>
+                                <td class="c-properties" style="width: 75%">
+                                    <?php if(isset($fo['properties']['color'])):?>
+                                        <span class="color"><?php echo __('Couleur:')?></span<span><?php echo $fo['properties']['color']?></span>&nbsp;&#47;
+                                    <?php endif;?>
+                                    <?php if(isset($fo['properties']['size'])):?>
+                                        <span class="color"><?php echo __('Taille:')?></span<span><?php echo $fo['properties']['size']?></span>&nbsp;&#47;
+                                    <?php endif;?>
+                                    <?php if(isset($fo['properties']['font_family'])):?>
+                                        <span class="color"><?php echo __('Font Family:')?></span<span><?php echo $fo['properties']['font_family']?></span>&nbsp;&#47;
+                                    <?php endif;?>
+                                    <?php if(isset($fo['properties']['font_size'])):?>
+                                        <span class="color"><?php echo __('Font Size:')?></span<span><?php echo $fo['properties']['font_size']?></span>&nbsp;&#47;
+                                    <?php endif;?>
+                                    <?php if(isset($fo['properties']['font_style'])):?>
+                                        <span class="color"><?php echo __('Font Style:')?></span<span><?php echo $fo['properties']['font_style']?></span>&nbsp;&#47;
+                                    <?php endif;?>
+                                    <?php if(isset($fo['properties']['font_weight'])):?>
+                                        <span class="color"><?php echo __('Font Weight:')?></span<span><?php echo $fo['properties']['font_weight']?></span>&nbsp;&#47;
+                                    <?php endif;?>
+                                    <?php if(isset($fo['properties']['rotate'])):?>
+                                        <span class="color"><?php echo __('Rotate:')?></span<span><?php echo $fo['properties']['rotate']?></span>
+                                    <?php endif;?>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <?php endif;?>
+                        <?php if($fo['layer_type'] == 'picture'):?>
+                        <tbody>
+                            <tr class="front-left">
+                               <?php if(isset($fo['properties']['dataURL'])):?>
+                                    <td class="c-left" style="width: 25%">
+                                        <img src="<?php echo $fo['properties']['dataURL']?>" alt="<?php echo $fo['layer_name']?>"/>
+                                    </td>
+                                <?php endif;?>
+                                <td class="c-properties" style="width: 75%">
+                                    <?php if(isset($fo['properties']['width'])):?>
+                                        <span class="color"><?php echo __('Width:')?></span<span><?php echo round($fo['properties']['width'],2)?></span>&nbsp;&#47;
+                                    <?php endif;?>
+                                    <?php if(isset($fo['properties']['height'])):?>
+                                        <span class="color"><?php echo __('Height:')?></span<span><?php echo round($fo['properties']['height'],2)?></span>&nbsp;&#47;
+                                    <?php endif;?>
+                                    <?php if(isset($fo['properties']['rotate'])):?>
+                                        <span class="color"><?php echo __('Rotate:')?></span<span><?php echo round($fo['properties']['rotate'],2)?></span>
+                                    <?php endif;?>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <?php endif;?>
+                        <?php endforeach;?>
+                </table>
+            <?php else:?>
+
+            <?php endif;?>
+        <?php endif;?>
+    </td>
+</tr>

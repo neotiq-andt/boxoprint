@@ -1,0 +1,816 @@
+body,
+#root,
+.main-app {
+  width: 100%;
+  height: 100vh;
+  color: #000000 !important;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+.ui.dropdown > .dropdown.icon {
+  font-weight: 900 !important;
+}
+
+.field-button {
+  display: grid;
+  float: left;
+  margin-top: -3px;
+  margin-right: 10px !important;
+}
+
+.grid-modal-shape >.row-modal-shape1 > .column > .field-button > span {
+  height: 45px !important;
+  margin: 2px 0 0 0;
+}
+
+.row-text-box2 >.column-text-box2-button >.field-button > span{
+  height: 28px !important;
+  width: 28px !important;
+  margin: 0px 5px 0 0;
+}
+.shape-content-row-stroke >.column >.field >.checkbox > label{
+  font-size: 12px;
+}
+
+.shape-content-row > .column > .form> .field-button> span{
+  height: 45px !important;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}
+.ui.dimmer {
+  height: auto !important;
+  margin-top: -26px;
+}
+.main-app {
+  display: flex;
+  flex-direction: column;
+}
+
+:focus {
+  outline: none;
+}
+.layer_warning_row {
+  color: #856404;
+  background-color: #fff3cd;
+  border-color: #ffeeba;
+}
+
+.ui-grid-center {
+  position: inherit !important;
+}
+
+.login-form {
+  width: 100%;
+  height: 100%;
+  user-select: "none";
+}
+
+.login-form .cover-pc {
+  background-size: cover;
+  background-image: url("/boxo-frontend/fabrication_pliage.jpg");
+  height: 100%;
+  padding: 0;
+}
+.login-form .cover-mobile {
+  background-size: cover;
+  background-image: url("/boxo-frontend/banniere1.png");
+  height: 100%;
+  padding: 0;
+}
+
+.rc-slider-tooltip {
+  z-index: 11;
+}
+
+.ui.inverted.blue.menu,
+ui.blue.button {
+  background-color: #6ebe45 !important;
+}
+
+.ui.blue.button {
+  background-color: #6ebe45 !important;
+}
+
+.ui.blue.segment:not(.inverted) {
+  border-top: none !important;
+}
+
+.react-dat-gui {
+  position: absolute;
+  right: 0;
+  top: 15px;
+}
+
+.css-1dqly55-Popover input {
+  font-size: 10px !important;
+}
+
+.page.modals.dimmer {
+  background-color: #00000026 !important;
+}
+
+.ui[class*="right labeled"].icon.button.color-picker {
+  padding: 6px 34px 6px 8px !important;
+}
+
+.layer_row:hover {
+  background-color: aliceblue;
+}
+
+.ui.button.icon > svg {
+  width: 16.52px;
+  height: 12px;
+}
+
+.sketch-picker-custom {
+  margin-top: -20px;
+  margin-left: -16px;
+  box-shadow: none !important;
+}
+
+.sketch-picker-custom-div{
+    background-color: #ffffff;
+}
+
+.div-remove-color{
+    text-align: center;
+    padding: 5px 0;
+}
+
+.ui.accordion .title ~ .content {
+  /* margin-left: 25px; */
+}
+
+.vertical-submenu a {
+  color: #f6fdff;
+}
+.accordion .ui.segment .field {
+  margin-bottom: 2em;
+}
+
+/* Menu tool bar */
+.box-tool-bar-mobile {
+  display: none;
+}
+.or:before {
+  margin-left: -18px !important;
+  z-index: 1 !important;
+}
+.menu-tool-bar {
+  background: #6ebe45;
+  float: left;
+  height: 100%;
+  min-height: 570px;
+}
+.box-tool-bar {
+  height: 100%;
+  min-height: 570px;
+  width: 100%;
+  position: relative;
+}
+.menu-tool-bar-sub {
+  background: #6ebe45;
+  height: 100%;
+  width: 100%;
+  float: left;
+  min-height: 570px;
+  left: 103%;
+  z-index: 1;
+  display: none;
+  position: absolute;
+}
+
+/*.ui.compact.vertical.menu{*/
+/*    width: 100% !important;*/
+/*}*/
+
+.menu-tool-bar .menu-tool-bar-ul {
+  margin: 0px;
+  padding: 0px;
+  width: auto !important;
+  background: inherit !important;
+}
+
+.box-tool-bar .menu-tool-bar .ui.compact.vertical.pointing.menu .item img {
+  border-style: none;
+  font-size: 1.214286em !important;
+  margin: 0 auto 0.1rem !important;
+  cursor: pointer;
+}
+.box-tool-bar
+  .menu-tool-bar
+  .ui.compact.vertical.pointing.menu
+  .dropdown-menu
+  .item {
+  text-align: justify;
+  border-bottom: #6ebe45 2px solid !important;
+}
+.box-tool-bar
+  .menu-tool-bar
+  .ui.compact.vertical.pointing.menu
+  .dropdown-menu
+  .item
+  i {
+  font-size: small !important;
+}
+.box-tool-bar
+  .menu-tool-bar
+  .ui.compact.vertical.pointing.menu
+  .dropdown-menu
+  .item
+  i.icon-event {
+  float: right;
+}
+.box-tool-bar
+  .menu-tool-bar
+  .ui.compact.vertical.pointing.menu
+  .dropdown-menu
+  i {
+  color: #000000de;
+}
+.box-tool-bar .menu-tool-bar .ui.compact.vertical.pointing.menu .item-inactive {
+  pointer-events: none;
+  opacity: 0.4;
+}
+/*000000de*/
+
+.box-tool-bar
+  .menu-tool-bar
+  .ui.compact.vertical.pointing.menu
+  .item
+  .icon-title {
+  color: #ffffff;
+  text-transform: uppercase;
+  display: block;
+  line-height: 1.4285em;
+}
+.box-tool-bar .menu-tool-bar .ui.vertical.menu .item:before {
+  background: none;
+}
+.box-tool-bar .menu-tool-bar .ui.vertical.menu .dropdown-menu {
+  border: #6ebe45 1px solid;
+}
+
+.menu-tool-bar .ui.compact.vertical.pointing.menu .item {
+  height: auto;
+}
+.menu-tool-bar .ui.vertical.menu .item {
+  padding: 5px;
+  border: none !important;
+}
+.menu-tool-bar .ui.vertical.pointing.menu .active.item:after {
+  background: #575756 !important;
+  border-top: 1px solid #575756;
+  border-right: 1px solid #575756;
+}
+.menu-tool-bar .ui.vertical.menu > .item:first-child {
+  border-radius: 0px;
+}
+.menu-tool-bar .menu-tool-bar-ul li {
+  list-style: none;
+  height: 40px;
+  padding: 15px;
+  text-align: center;
+  margin: 5px auto;
+}
+.menu-tool-bar ul li:first-child {
+  padding-top: 0px;
+}
+.menu-tool-bar i {
+  font-size: 100%;
+  color: #f6fdff;
+}
+.menu-tool-bar .ui.buttons .button:first-child {
+  margin-left: -15px;
+}
+
+.menu-tool-bar .ui.sidebar {
+  overflow: visible !important;
+}
+
+.box-tool-bar .ui.vertical.menu .item > i.icon {
+  float: inherit;
+  margin: auto;
+}
+.box-tool-bar .menu-tool-bar .ui.compact.vertical.pointing.menu .item {
+  text-align: center;
+}
+
+h5.ui.header {
+  margin-top: 15px;
+}
+
+.show-2d-3d {
+  position: absolute;
+  bottom: 25px;
+  text-align: center;
+  display: block !important;
+}
+
+.show-2d-3d .item {
+  width: 100%;
+  margin: auto;
+  display: block !important;
+  padding: 5px !important;
+}
+.eight > .field-button {
+  margin: 17px 0 0 0 !important;
+}
+
+.eight > .ui > .column {
+  padding-right: 30px !important;
+}
+
+.eight > .field > .selection i {
+  padding: 0 !important;
+}
+
+.five > .buttons {
+  margin: 15px 5px 0 0 !important;
+}
+.gridText > .row {
+  padding: 0 0 15px 0 !important;
+}
+.inverted.menu > .actions {
+  padding: 0 !important;
+}
+.gridText > .rowTextarean {
+  padding: 0 !important;
+}
+.btn-color > span {
+  height: 33px;
+  width: 33px;
+}
+
+.btn-shapeBox {
+  height: 80px;
+  width: 80px;
+  margin: 0 !important;
+}
+
+.ui.menu .ui.dropdown .menu > .item .icon:not(.dropdown) {
+  margin: 0 !important;
+}
+
+.icon-shapeBox {
+  background-color: #000000;
+  width: 60px !important;
+}
+
+.icon-line {
+  height: 10px !important;
+}
+
+.icon-rectangle {
+  height: 40px !important;
+}
+
+.icon-rectangle-rounded-corners {
+  height: 40px !important;
+  border-radius: 25px;
+}
+.icon-square {
+  height: 60px !important;
+}
+
+.icon-square-rounded-corners {
+  border-radius: 25%;
+  height: 60px !important;
+}
+
+.icon-circle {
+  border-radius: 50%;
+  height: 60px !important;
+}
+.icon-oval {
+  height: 30px !important;
+  border-radius: 100px / 50px;
+}
+
+.icon-pentagon {
+  position: relative;
+  border-width: 27px 18px 0;
+  border-style: solid;
+  border-color: #000000 transparent;
+  background-color: transparent !important;
+  transform: translateY(50%);
+}
+
+.icon-pentagon:before {
+  content: "";
+  position: absolute;
+  height: 0;
+  width: 0;
+  top: -62px;
+  left: -18px;
+  border-width: 0 30px 36px;
+  border-style: solid;
+  border-color: transparent transparent #000000;
+  background-color: transparent !important;
+}
+
+.icon-triangle {
+  width: 0 !important;
+  height: 0 !important;
+  border-left: 30px solid transparent;
+  border-right: 30px solid transparent;
+  border-bottom: 50px solid #000000;
+  background-color: transparent !important;
+}
+
+/* ----------- iPhone 4 and 4S ----------- */
+
+/* Portrait and Landscape */
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
+}
+
+/* Portrait */
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+}
+
+/* Landscape */
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: landscape) {
+}
+
+/* ----------- iPhone 5, 5S, 5C and 5SE ----------- */
+
+/* Portrait and Landscape */
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) {
+  .ui .grid {
+    display: flex;
+  }
+  .ui.grid > [class*="ui-grid-left"].column {
+    height: auto !important;
+    padding-bottom: 0px !important;
+  }
+  .ui.grid > [class*="ui-grid-center"].column,
+  .ui.grid > [class*="ui-grid-left"].column,
+  .ui.grid > [class*="ui-grid-right"].column {
+    width: 100% !important;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  .ui.grid > [class*="ui-grid-right"].column .segment {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  .menu-tool-bar,
+  .menu-tool-bar-sub {
+    display: none !important;
+  }
+  .box-tool-bar {
+    min-height: auto;
+  }
+}
+
+/* Portrait */
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+}
+
+/* Landscape */
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: landscape) {
+}
+
+/* Galaxy S5 portrait */
+@media screen and (device-width: 360px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) {
+  .ui .grid {
+    display: flex;
+  }
+  .ui.grid > [class*="two wide"].column {
+    height: auto !important;
+    padding-bottom: 0px !important;
+  }
+  .ui.grid > [class*="eleven wide"].column,
+  .ui.grid > [class*="two wide"].column,
+  .ui.grid > [class*="three wide"].column {
+    width: 100% !important;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  .ui.grid > [class*="three wide"].column .segment {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  .menu-tool-bar,
+  .menu-tool-bar-sub {
+    display: none !important;
+  }
+  .box-tool-bar {
+    min-height: auto;
+  }
+  .ui.grid .ui.stackable.grid.stackable-couches {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
+/* Galaxy S5 landscape */
+@media screen and (device-width: 360px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape) {
+}
+
+/* ----------- iPhone 6, 6S, 7 and 8 ----------- */
+
+/* Portrait and Landscape */
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) {
+}
+
+/* Portrait */
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+}
+
+/* Landscape */
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: landscape) {
+}
+
+/* ----------- iPhone 6+, 7+ and 8+ ----------- */
+
+/* Portrait and Landscape */
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) {
+}
+
+/* Portrait */
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
+}
+
+/* Landscape */
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: landscape) {
+}
+
+/* ----------- iPhone X ----------- */
+
+/* Portrait and Landscape */
+@media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) {
+}
+
+/* Portrait */
+@media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
+}
+
+/* Landscape */
+@media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: landscape) {
+}
+
+/* ----------- iPad 1, 2, Mini and Air ----------- */
+
+/* Portrait and Landscape */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 1) {
+  .ui .grid {
+    display: flex;
+  }
+  .ui.grid > [class*="two wide"].column {
+    height: auto !important;
+    padding-bottom: 0px !important;
+  }
+  .ui.grid > [class*="eleven wide"].column,
+  .ui.grid > [class*="two wide"].column,
+  .ui.grid > [class*="three wide"].column {
+    width: 100% !important;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  .ui.grid > [class*="three wide"].column .segment {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  .menu-tool-bar,
+  .menu-tool-bar-sub {
+    display: none !important;
+  }
+  .box-tool-bar {
+    min-height: auto;
+  }
+  .stackable-couches {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
+/* Portrait */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 1) {
+}
+
+/* Landscape */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 1) {
+}
+
+/* ----------- iPad 3, 4 and Pro 9.7" ----------- */
+
+/* Portrait and Landscape */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) {
+}
+
+/* Portrait */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 2) {
+}
+
+/* Landscape */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2) {
+}
+
+/* ----------- iPad Pro 10.5" ----------- */
+
+/* Portrait and Landscape */
+@media only screen and (min-device-width: 834px) and (max-device-width: 1112px) and (-webkit-min-device-pixel-ratio: 2) {
+}
+
+/* Portrait */
+/* Declare the same value for min- and max-width to avoid colliding with desktops */
+/* Source: https://medium.com/connect-the-dots/css-media-queries-for-ipad-pro-8cad10e17106*/
+@media only screen and (min-device-width: 834px) and (max-device-width: 834px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 2) {
+}
+
+/* Landscape */
+/* Declare the same value for min- and max-width to avoid colliding with desktops */
+/* Source: https://medium.com/connect-the-dots/css-media-queries-for-ipad-pro-8cad10e17106*/
+@media only screen and (min-device-width: 1112px) and (max-device-width: 1112px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2) {
+}
+
+/* ----------- iPad Pro 12.9" ----------- */
+
+/* Portrait and Landscape */
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) and (-webkit-min-device-pixel-ratio: 2) {
+}
+
+/* Portrait */
+/* Declare the same value for min- and max-width to avoid colliding with desktops */
+/* Source: https://medium.com/connect-the-dots/css-media-queries-for-ipad-pro-8cad10e17106*/
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1024px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 2) {
+}
+
+/* Landscape */
+/* Declare the same value for min- and max-width to avoid colliding with desktops */
+/* Source: https://medium.com/connect-the-dots/css-media-queries-for-ipad-pro-8cad10e17106*/
+@media only screen and (min-device-width: 1366px) and (max-device-width: 1366px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2) {
+}
+
+/* style private ModalLayer image*/
+
+.grid-modal-image > .column:not(.row) {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.modal-content {
+  padding: 1.5rem !important;
+}
+
+.grid-modal-image > .eight > section > div > .segment,
+.grid-modal-image > .eight > .segment {
+  margin: 0 !important;
+  padding: 0 !important;
+  /* margin: 1rem 0; */
+  /* padding: 1em 1em; */
+}
+
+.grid-modal-image > .eight > .segment {
+  padding: 10px 0 0 0 !important;
+}
+
+.grid-modal-image > .eight > .segment > img {
+  max-height: 125px !important;
+  max-width: 125px !important;
+}
+
+.row-modal-image1 {
+  padding: 15px 0 0px 0 !important;
+}
+.row-modal-image2 {
+  padding: 0 0 16px 0 !important;
+}
+
+.modal-action {
+  padding: 5px 1rem !important;
+}
+
+/* style private ModalLayer text*/
+.grid-modal-text > .row {
+  padding: 0 !important;
+}
+
+.grid-modal-text > .row > .nine > .field > div > textarea {
+  white-space: pre-line;
+  min-height: 20px;
+  font-size: 12px !important;
+}
+
+/* style private image text*/
+.grid-image-box > .row > .ten > .segment > img {
+  max-height: 125px !important;
+  max-width: 125px !important;
+}
+
+.grid-image-box > .row > .ten > .segment {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.grid-image-box > .row > .six > .field {
+  margin: 0;
+}
+
+.row-image-box1 {
+  padding: 10px 0 0 0 !important;
+}
+
+.row-image-box2 {
+  padding: 0 0 10px 0 !important;
+}
+
+.row-image-box1 > .column {
+  padding: 10px;
+}
+
+.grid-image-box > .row > .ten > section > div > .segment {
+  padding: 5px 0 !important;
+  margin: 0 0 10px 0 !important;
+}
+
+.action-box {
+  padding: 3px 0 !important;
+}
+
+.grid-text-box > .row > .eight > .field > .dropdown {
+  min-width: 10em;
+}
+
+.grid-text-box > .row > .column > .field-button {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.grid-text-box > .row > .column > .field-button > .css-192das5-InputColor {
+  width: 30px !important;
+  height: 30px !important;
+}
+
+.column-text-box2-position {
+  padding: 0 !important;
+}
+
+.column-text-box2-button {
+  padding: 16px 0px 0 17px !important;
+}
+
+.input-text-box > div > textarea {
+  white-space: pre-line !important;
+}
+
+.row-text-box1 {
+  padding: 6px 0 0 0 !important;
+}
+
+.row-text-box2 {
+  padding: 0 0 !important;
+}
+
+.row-text-box3 {
+  padding: 2px 0 5px 0 !important;
+}
+
+.row-text-box3 > .column > .input-text-box > div > textarea {
+  white-space: pre-line;
+  min-height: 20px;
+  font-size: 12px !important;
+}
+
+.icon-layer-toobar {
+  float: right;
+}
+
+.shape-content-row {
+  padding: 3px 0 !important;
+}
+
+.shape-content-row > .four > .form > .field-button > .css-1yn2e29-InputColor {
+  margin: 3px 0 0 0 !important;
+}
+
+.shape-content-row-stroke > .eight > .form > .field > .checkbox {
+  margin: 24px 0 0 0 !important;
+}
+
+.shape-content-row-stroke {
+  padding: 0 0 10px 0 !important;
+}
+
+.toolbar-layer-title {
+  display: inline;
+}
+.toolbar-layer-title span{
+    margin: 10px;
+}
+
+.toolbar-layer-icon {
+  display: inline;
+}
+
+.toolbar-layer-icon > i{
+    float: right;
+}

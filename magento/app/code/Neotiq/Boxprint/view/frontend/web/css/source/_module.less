@@ -1,0 +1,169 @@
+& when (@media-common = true) {
+   .hidden {
+     display:none;
+   }
+    .catalog-product-view {
+        .boxprint-data {
+            display: flex;
+            display: -webkit-flex;
+            display: -moz-flex;
+            display: -o-flex;
+            justify-content: start;
+            vertical-align: center;
+            align-content: center;
+            position: relative;
+            .boxprint-svg {
+                text-align: center;
+                width: 100%;
+            }
+            .boxprint-properties {
+                font-size: 21px;
+                text-align: left;
+                top:-65px;
+                display: flex;
+                position: absolute;
+                justify-content: center;
+                align-items: center;
+                right: 0;
+                .key {
+                    display: inline-block;
+                    margin-right: 10px;
+                    span {
+                        text-transform: uppercase;
+                    }
+                }
+                .value {
+                    display: inline-block;
+                }
+                span {
+                    margin:0;
+                    &.properties {
+                        text-transform: uppercase;
+                    }
+                }
+                .value {
+                    font-weight: 700;
+                }
+                .view-all {
+                    cursor: pointer;
+                    margin-left: 10px;
+                    font-size: 14px;
+                    margin-top: 3px;
+                    text-decoration: underline;
+                }
+            }
+        }
+        .boxoprint-img {
+            text-align: center;
+            img {
+				margin-top:10px;
+				margin-bottom:20px;
+            }
+        }
+        .product-boxoprint {
+            .action.primary {
+                position: static !important;
+            }
+        }
+
+    }
+
+    .boxprint-popup-viewall {
+        .modal-content {
+            overflow-y: scroll;
+            height: 75vh;
+        }
+        .boxprint-popup-content {
+            .front-left {
+                display: flex;
+                display: -webkit-flex;
+                display: -moz-flex;
+                display: -o-flex;
+                justify-content: center;
+                align-items: center;
+                border-bottom: 1px solid #ddd;
+                .c-left {
+                    word-break: break-all;
+                    padding: 10px 25px;
+                    width: 20%;
+                    img {
+                        width:100px;
+                    }
+                }
+                .c-properties {
+                    width: 80%;
+                    word-break: break-all;
+                }
+            }
+        }
+    }
+
+    .sales-order-view {
+        .order-items {
+            .order-item {
+                position: relative;
+            }
+            .product-boxoprint,.product-boxoprint-edit {
+                margin: 20px 0;
+                text-decoration: underline;
+                cursor: pointer;
+            }
+        }
+    }
+
+    .my-boxoprint,.my-boxoprint-edit,.my-boxoprint-delete {
+        display:inline-block;
+        text-decoration: underline;
+    }
+    .my-boxoprint-delete a{
+        color:red;
+    }
+	
+	.mdq-popup-save {
+	    .modal-header {
+			background:#6ebe45;
+		}
+		.action-close:before {
+			color:#ffffff !important;
+		}
+		.modal-inner-wrap {
+			max-width: 600px !important;
+		}
+		.modal-content {
+			padding: 25px;
+			font-size: 16px;
+			text-align:center;
+		}
+	}
+}
+
+& when (@media-target = 'desktop'), (@media-target = 'all') {
+    @media (min-width: 768px) and (max-width: 1199px) {
+        .catalog-product-view {
+            .boxprint-data {
+                padding-top: 30px;
+                .boxprint-properties {
+                    left: 0;
+                    top: -15px;
+                    right: unset;
+                }
+            }
+        }
+    }
+	
+}
+
+& when (@media-target = 'mobile'), (@media-target = 'all') {
+	@media (max-width: 767px) {
+        .catalog-product-view {
+            .boxprint-data {
+                padding-top: 30px;
+                .boxprint-properties {
+                    left: 0;
+                    top: -15px;
+                    right: 0;
+                }
+            }
+        }
+    }
+}

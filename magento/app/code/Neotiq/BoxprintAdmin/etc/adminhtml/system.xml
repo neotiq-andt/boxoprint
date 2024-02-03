@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="neotiq_boxprint_config" translate="label" type="text" sortOrder="500" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Boxoprint</label>
+            <tab>neotiq</tab>
+            <resource>Neotiq_BoxprintAdmin::neotiq_boxprint_config</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Settings</label>
+                <field id="auto_enabled" translate="label comment" type="select" sortOrder="5"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Auto General Data when upload file</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="url_svg" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" >
+                    <label>Url Svg</label>
+                </field>
+                <field id="config_workspace" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" >
+                    <label>Config Workspace</label>
+                </field>
+				<field id="path_save" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" >
+                    <label>Path Save</label>
+                </field>
+                <field id="use_sftp" translate="label comment" type="select" sortOrder="25"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Use SFTP Upload</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="host" translate="label comment" type="text" sortOrder="30"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>SFTP  Host</label>
+                    <depends><field id="use_sftp">1</field></depends>
+                </field>
+                <field id="post" translate="label comment" type="text" sortOrder="40"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>SFTP Post</label>
+                    <depends><field id="use_sftp">1</field></depends>
+                </field>
+                <field id="username" translate="label comment" type="text" sortOrder="50"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Username</label>
+                    <depends><field id="use_sftp">1</field></depends>
+                </field>
+                <field id="password" translate="label comment" type="password" sortOrder="60"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Password</label>
+                    <depends><field id="use_sftp">1</field></depends>
+                </field>
+                <field id="svg_path_download" translate="label comment" type="text" sortOrder="100"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>SVG Path Render</label>
+                </field>
+				<field id="api_render_workspace" translate="label comment" type="text" sortOrder="200"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Api Key Url</label>
+                </field>
+            </group>
+			<group id="neotiq_cart" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Cart</label>
+                <field id="auto_remove" translate="label comment" type="select" sortOrder="5"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Auto Remove Box when item in cart removed</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,26 @@
+{
+   "name": "cartonnage_3D",
+   "version": "1.0.0",
+   "description": "Node.js on Docker",
+   "author": "Yann TORRENT <yann@ytor.fr>",
+   "main": "backend.js",
+   "scripts": {
+      "start": "node app/backend.js"
+   },
+   "dependencies": {
+      "bcrypt": "3.0.6",
+      "child_process": "^1.0.2",
+      "cors": "^2.8.5",
+      "emailjs": "^2.2.0",
+      "enquirer": "^2.3.5",
+      "express": "^4.17.1",
+      "express-bearer-token": "^2.4.0",
+      "generate-password": "^1.5.1",
+      "glob": "^7.1.6",
+      "https": "^1.0.0",
+      "mysql": "^2.18.1",
+      "node-cache": "^4.2.1",
+      "random": "^2.2.0",
+      "uuid": "8.0.0"
+   }
+}

@@ -1,0 +1,161 @@
+<?php
+use Magento\Framework\App\Action\Action;
+$_productCollection = $this->getLoadedProductCollection();
+$_collectionSize = $_productCollection->count();
+$imageBlock =  $block->getLayout()->createBlock('Magento\Catalog\Block\Product\Image');
+$image = 'new_products_content_widget_grid';
+$type = 'widget-product-grid';
+$mode = 'grid';
+$showWishlist = false;
+$showCompare = false;
+$showCart = true;
+$templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+$description = false;
+?>
+<?php if($_collectionSize > 0) : ?>
+    <div class="boxcart-product">
+        <div class="box-title">
+            <h2><?= $block->escapeHtml($block->getTitleCf()) ?></h2>
+        </div>
+        <div class="b-content products-grid-item ">
+            <div class="products list items product-items owl-carousel">
+                <?php $i = 0; foreach($_productCollection as $_item):
+                    $productImage = $block->getImage($_item, $image);
+                    $i++;
+                    ?>
+                    <div class="item product product-item">
+                        <div class="product-item-info">
+                            <a href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>" class="product-item-photo">
+                                <?= $block->getImage($_item, $image)->toHtml() ?>
+                            </a>
+
+                            <div class="product details product-item-details">
+                                <?= $block->getProductDetailsHtml($_item) ?>
+
+                                <strong class="product-item-name">
+                                    <a title="<?= $block->escapeHtmlAttr($_item->getName()) ?>"
+                                       href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
+                                       class="product-item-link">
+                                        <?= $block->escapeHtml($_item->getName()) ?>
+                                    </a>
+                                </strong>
+                                <?= $block->getProductPrice($_item)  ?>
+                                <?php if($_item->isSaleable() && $_item->isAvailable()):?>
+                                    <div class="boxcart-qty">
+                                        <div class="hidden item-id" data-mddqboxproductid="<?php echo $_item->getId();?>"></div>
+                                        <a href="javascript:void(0)" class="qtyminus"><span>-</span></a>
+                                        <input type="text" name="qty" id="qty-<?php echo $_item->getId(); ?>" maxlength="12" value="0" title="<?php /* @escapeNotVerified */ echo __('Qty') ?>" class="input-text qty" readonly />
+                                        <a href="javascript:void(0)" class="qtyplus"><span>+</span></a>
+                                    </div>
+                                <?php else:?>
+                                    <div class="stock unavailable"><span><?= $block->escapeHtml(__('Out of stock')) ?></span></div>
+                                <?php endif;?>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach;?>
+            </div>
+        </div>
+        <div class="boxproduct-action hidden">
+            <button class="btn action primary boxproduct-addtocart"><?php echo __("Add to Cart"); ?></button>
+            <div class="message-error" style="display: none"><?php echo __('You need select box') ?></div>
+        </div>
+    </div>
+    <?php if (!$block->isRedirectToCartEnabled()) : ?>
+        <script type="text/x-magento-init">
+        {
+            "[data-role=tocart-form], .form.map.checkout": {
+                "catalogAddToCart": {}
+            }
+        }
+        </script>
+    <?php endif; ?>
+    <script type="text/javascript">
+        require(['jquery','domReady!','owlslider'],function($) {
+            var owl_boxproduct = $('.owl-carousel');
+            owl_boxproduct.on('initialized.owl.carousel', function(event) {
+                $('.boxproduct-action').removeClass('hidden');
+            });
+            owl_boxproduct.owlCarousel({
+                margin: 20,
+                loop:false,
+                nav:true,
+                dots:false,
+                items: 2,
+                touchDrag: true,
+                mouseDrag: true,
+                responsive:{
+                    0 : {
+                        items:2,
+                        margin: 20,
+                        nav:false
+                    },
+                    320 : {
+                        items:2,
+                        margin: 20
+                    },
+                    479 : {
+                        items:2,
+                        margin: 20
+                    },
+                    767 : {
+                        items:2,
+                        margin: 20
+                    },
+                    980 : {
+                        items:3,
+                        margin: 20
+                    },
+                    1420 : {
+                        items:3,
+                        margin: 20
+                    },
+                }
+            });
+            $(document).on("click", ".qtyplus", function(e) {
+                e.preventDefault();
+                var currentVal = parseInt($(this).parents('.boxcart-qty').find('input[name="qty"]').val());
+                if (!isNaN(currentVal)) {
+                    $(this).parents('.boxcart-qty').find('input[name="qty"]').val(currentVal + 1);
+                } else {
+                    $(this).parents('.boxcart-qty').find('input[name="qty"]').val(0);
+                }
+            });
+            $(document).on("click", ".qtyminus", function(e) {
+                e.preventDefault();
+                fieldName = $(this).attr('field');
+                var currentVal = parseInt($(this).parents('.boxcart-qty').find('input[name="qty"]').val());
+                if (!isNaN(currentVal) && currentVal > 0) {
+                    $(this).parents('.boxcart-qty').find('input[name="qty"]').val(currentVal - 1);
+                } else {
+                    $(this).parents('.boxcart-qty').find('input[name="qty"]').val(0);
+                }
+            });
+            $(document).on("click",".boxproduct-addtocart",function(){
+                var databoxproduct = [];
+                var boxproduct_add = $(this);
+                $('.boxcart-qty',$('.boxcart-product')).each(function(){
+                    if(parseInt($(this).find('input[name="qty"]').val()) > 0) {
+                        databoxproduct.push({'mddqboxid':$(this).find('.item-id').data('mddqboxproductid'),'mddqboxqty':$(this).find('input[name="qty"]').val()});
+                    }
+                });
+                if(databoxproduct.length !== 0) {
+                    jQuery.ajax({
+                        url: "<?php echo $this->getBoxAddUrl();?>",
+                        type: "POST",
+                        dataType:"json",
+                        data: {'mddqboxproduct':JSON.stringify(databoxproduct)},
+                        showLoader: true,
+                        success: function(response){
+                            if (response.redirectUrl) {
+                                window.location.href = response.redirectUrl;
+                            }
+                        }
+                    });
+                } else {
+                    boxproduct_add.siblings('.message-error').show();
+                }
+            });
+        });
+    </script>
+<?php endif;?>

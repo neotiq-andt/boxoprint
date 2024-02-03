@@ -1,0 +1,112 @@
+<?php $_item = $block->getItem();?>
+<?php if($_item->getData('mdq_workspaceid')):?>
+<?php 
+	$neotiqBoxprintHelperData = $this->helper('Neotiq\Boxprint\Helper\Data');
+    $neotiqHelperData = $this->helper('Neotiq\Neotiq\Helper\Data');
+    $workspace = $neotiqBoxprintHelperData->getWorkspaceById($_item->getData('mdq_workspaceid'));
+?>
+<?php if($workspace):?>
+<?php
+    if($neotiqHelperData->getConfig('neotiq_boxprint_config/general/svg_path_download') && file_exists($neotiqHelperData->getConfig('neotiq_boxprint_config/general/svg_path_download').$_item->getData('mdq_workspaceid').'.svg')){
+        $workspace_svg = file_get_contents($neotiqHelperData->getConfig('neotiq_boxprint_config/general/svg_path_download').$_item->getData('mdq_workspaceid').'.svg');
+    }else{
+        $workspace_svg = $workspace->getData('workspace_svg');
+    }
+?>
+<div class="product-boxoprint">
+    <div class="view-all-<?php echo $_item->getId();?>"><?php echo __('Détails')?></div>
+    <?php if($workspace->getData('workspace_svg')):?>
+        <div class="view-svg-<?php echo $_item->getId();?>"><?php echo __('Télécharger SVG')?></div>
+    <?php endif;?>
+</div>
+<script type="text/javascript">
+    require(['jquery','Magento_Ui/js/modal/confirm','domReady!','mage/translate','mage/cookies'], function($, confirmation){
+        $('.product-boxoprint .view-all-<?php echo $_item->getId();?>').click(function(e){
+            e.preventDefault();
+            var box_view_all = '<?php echo $this->getUrl('boxprintadmin/workspace/info')?>';
+            var productId = '<?php echo $_item->getData('product_id')?>';
+            var box_workspace_id = '<?php echo $_item->getData('mdq_workspaceid')?>';
+            $.ajax({
+                type: "POST",
+                url: box_view_all,
+                data: {
+                    productId:productId,
+                    workspaceId:box_workspace_id
+                },
+                showLoader: true,
+                dataType: 'json',
+                success: function(responseData)
+                {
+                    if(responseData.mdq_boxprint_info!='') {
+                        confirmation({
+                            title: $.mage.__('Des détails'),
+                            content: responseData.mdq_boxprint_info,
+                            buttons: [],
+                            modalClass: 'boxprint-popup-viewall',
+                        });
+                    }
+                }
+            });
+        });
+
+        $('.product-boxoprint .view-svg-<?php echo $_item->getId();?>').click(function(e){
+            e.preventDefault();
+            var box_view_svg = '<?php echo $this->getUrl('boxprintadmin/workspace/svg')?>';
+            var productId = '<?php echo $_item->getData('product_id')?>';
+            var box_workspace_id = '<?php echo $_item->getData('mdq_workspaceid')?>';
+            $.ajax({
+                type: "POST",
+                url: box_view_svg,
+                data: {
+                    productId:productId,
+                    workspaceId:box_workspace_id
+                },
+                showLoader: true,
+                dataType: 'json',
+                success: function(responseData)
+                {
+                    if(responseData.mdq_boxprint_svg!='') {
+                        confirmation({
+                            title: $.mage.__('SVG'),
+                            content: responseData.mdq_boxprint_svg,
+                            buttons: [{
+                                text: $.mage.__('Télécharger SVG'),
+                                class: 'action new',
+                                click: function (event) {
+                                    var str = '<?php echo $workspace_svg?>';
+                                    var filename = '<?php echo $workspace->getData('label')?>' + '.svg'
+                                    download_svg(str, filename, "image/svg+xml");
+                                }
+                            }],
+                            modalClass: 'boxprint-popup-svg',
+                        });
+                    }
+                }
+            });
+        });
+        function download_svg(data, filename, type) {
+            var file = new Blob([data], { type: type });
+            if (window.navigator.msSaveOrOpenBlob) // IE10+
+                window.navigator.msSaveOrOpenBlob(file, filename);
+            else { // Others
+                var a = document.createElement("a"),
+                    url = URL.createObjectURL(file);
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                setTimeout(function () {
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
+                }, 0);
+            }
+            var data = new FormData();
+            data.append("data" , data);
+            var xhr = new XMLHttpRequest();
+            xhr.open( 'post', '/', true );
+            xhr.send(data);
+        }
+    });
+</script>
+<?php endif;?>
+<?php endif;?>

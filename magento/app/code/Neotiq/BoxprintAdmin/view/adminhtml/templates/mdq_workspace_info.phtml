@@ -1,0 +1,65 @@
+<?php
+$neotiqHelperData = $this->helper('Neotiq\Neotiq\Helper\Data');
+$neotiqBoxprintHelperData = $this->helper('Neotiq\Boxprint\Helper\Data');
+$workspaceId = $this->getWorkspaceId();
+$workspace = $neotiqBoxprintHelperData->getWorkspaceById($workspaceId);
+$workspaceFront = $neotiqBoxprintHelperData->getBoxprintFrontConfigById($workspaceId);
+?>
+<?php if($workspaceFront):?>
+    <div class="boxprint-popup-content">
+        <?php foreach ($workspaceFront as $fo):?>
+            <?php if($fo['layer_type'] == 'text'):?>
+                <div class="front-left">
+                    <?php if(isset($fo['properties']['text'])):?>
+                        <div class="c-left"><?php echo $fo['properties']['text']?></div>
+                    <?php endif;?>
+                    <div class="c-properties">
+                        <?php if(isset($fo['properties']['color'])):?>
+                            <span class="color"><?php echo __('Couleur:')?></span<span><?php echo $fo['properties']['color']?></span>&nbsp;&#47;
+                        <?php endif;?>
+                        <?php if(isset($fo['properties']['size'])):?>
+                            <span class="color"><?php echo __('Taille:')?></span<span><?php echo $fo['properties']['size']?></span>&nbsp;&#47;
+                        <?php endif;?>
+                        <?php if(isset($fo['properties']['font_family'])):?>
+                            <span class="color"><?php echo __('Font Family:')?></span<span><?php echo $fo['properties']['font_family']?></span>&nbsp;&#47;
+                        <?php endif;?>
+                        <?php if(isset($fo['properties']['font_size'])):?>
+                            <span class="color"><?php echo __('Font Size:')?></span<span><?php echo $fo['properties']['font_size']?></span>&nbsp;&#47;
+                        <?php endif;?>
+                        <?php if(isset($fo['properties']['font_style'])):?>
+                            <span class="color"><?php echo __('Font Style:')?></span<span><?php echo $fo['properties']['font_style']?></span>&nbsp;&#47;
+                        <?php endif;?>
+                        <?php if(isset($fo['properties']['font_weight'])):?>
+                            <span class="color"><?php echo __('Font Weight:')?></span<span><?php echo $fo['properties']['font_weight']?></span>&nbsp;&#47;
+                        <?php endif;?>
+                        <?php if(isset($fo['properties']['rotate'])):?>
+                            <span class="color"><?php echo __('Rotate:')?></span<span><?php echo $fo['properties']['rotate']?></span>
+                        <?php endif;?>
+                    </div>
+                </div>
+            <?php endif;?>
+            <?php if($fo['layer_type'] == 'picture'):?>
+                <div class="front-left">
+                    <div class="c-left">
+                        <?php if(isset($fo['properties']['dataURL'])):?>
+                            <img src="<?php echo $fo['properties']['dataURL']?>" alt="<?php echo $fo['layer_name']?>"/>
+                        <?php endif;?>
+                    </div>
+                    <div class="c-properties">
+                        <?php if(isset($fo['properties']['width'])):?>
+                            <span class="color"><?php echo __('Width:')?></span<span><?php echo round($fo['properties']['width'],2)?></span>&nbsp;&#47;
+                        <?php endif;?>
+                        <?php if(isset($fo['properties']['height'])):?>
+                            <span class="color"><?php echo __('Height:')?></span<span><?php echo round($fo['properties']['height'],2)?></span>&nbsp;&#47;
+                        <?php endif;?>
+                        <?php if(isset($fo['properties']['rotate'])):?>
+                            <span class="color"><?php echo __('Rotate:')?></span<span><?php round($fo['properties']['rotate'],2) ?></span>
+                        <?php endif;?>
+                    </div>
+                </div>
+            <?php endif;?>
+        <?php endforeach;?>
+    </div>
+<?php else:?>
+
+<?php endif;?>

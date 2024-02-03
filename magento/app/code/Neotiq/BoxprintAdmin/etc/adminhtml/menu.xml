@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+	/**
+		* ducdevphp@gmail.com
+	*/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Neotiq_BoxprintAdmin::boxprint" title="Boxo Print" module="Neotiq_BoxprintAdmin" sortOrder="250" parent="Neotiq_Neotiq::neotiq" resource="Neotiq_BoxprintAdmin::boxprint"/>
+        <add id="Neotiq_BoxprintAdmin::template" title="Template" module="Neotiq_BoxprintAdmin" sortOrder="20" parent="Neotiq_BoxprintAdmin::boxprint" action="boxprintadmin/template" resource="Neotiq_BoxprintAdmin::template"/>
+        <add id="Neotiq_BoxprintAdmin::workspace" title="Workspace" module="Neotiq_BoxprintAdmin" sortOrder="30" parent="Neotiq_BoxprintAdmin::boxprint" action="boxprintadmin/workspace" resource="Neotiq_BoxprintAdmin::workspace"/>
+		<add id="Neotiq_BoxprintAdmin::workspace_default" title="Workspace Default" module="Neotiq_BoxprintAdmin" sortOrder="35" parent="Neotiq_BoxprintAdmin::boxprint" action="boxprintadmin/workspace/default" resource="Neotiq_BoxprintAdmin::workspace_default"/>
+        <add id="Neotiq_BoxprintAdmin::upload" title="Upload" module="Neotiq_BoxprintAdmin" sortOrder="50" parent="Neotiq_BoxprintAdmin::boxprint" action="boxprintadmin/upload" resource="Neotiq_BoxprintAdmin::upload"/>
+         <add id="Neotiq_BoxprintAdmin::workspace_general" title="General Workspace" module="Neotiq_BoxprintAdmin" sortOrder="60" parent="Neotiq_BoxprintAdmin::boxprint" action="boxprintadmin/general" resource="Neotiq_BoxprintAdmin::workspace_general" target="_blank"/>
+		<add id="Neotiq_BoxprintAdmin::neotiq_boxprint_config" title="Settings" module="Neotiq_BoxprintAdmin" action="adminhtml/system_config/edit/section/neotiq_boxprint_config/" sortOrder="80" parent="Neotiq_BoxprintAdmin::boxprint" resource="Neotiq_BoxprintAdmin::neotiq_boxprint_config"/>
+    </menu>
+</config>

@@ -1,0 +1,62 @@
+// /**
+//  * Copyright © Magento, Inc. All rights reserved.
+//  * See COPYING.txt for license details.
+//  */
+
+//
+//  Common
+//  _____________________________________________
+
+& when (@media-common = true) {
+
+    //  Using buttons mixins
+    button,
+    a.action.primary {
+        .lib-css(border-radius, @button__border-radius);
+    }
+
+    button,
+    button.action,
+    .action.primary,
+    .action-primary {
+        padding: 14px 17px;
+        border-radius: 50px;
+        font-weight: @font-weight__bold;
+        transition:all .2s ease-in-out ;
+        box-shadow: none !important;
+        line-height: 22px;
+        font-size: 16px;
+        backface-visibility: visible;
+        background: @button-color;
+        border: 2px solid @button-color;
+        color: #fff;
+        &:hover {
+            background: none;
+            color: #000;
+            border: 2px solid @button-color;
+        }
+        &:focus {
+            background: @button-color;
+            border: 2px solid @button-color;
+            color: #fff;
+        }
+        &.tocart {
+            &:focus {
+                background: @button-color;
+                border: 2px solid @button-color;
+                color: #fff;
+            }
+        }
+    }
+
+    body {
+        &:not(._keyfocus) {
+            button {
+                &:focus {
+                    box-shadow: none;
+                }
+            }
+        }
+    }
+
+}

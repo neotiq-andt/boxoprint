@@ -1,0 +1,19 @@
+<?php
+$neotiqHelperData = $this->helper('Neotiq\Neotiq\Helper\Data');
+$neotiqBoxprintHelperData = $this->helper('Neotiq\Boxprint\Helper\Data');
+$workspaceId = $this->getWorkspaceId();
+$workspace = $neotiqBoxprintHelperData->getWorkspaceById($workspaceId);
+?>
+<?php if($workspace && $workspace->getData('workspace_svg')):?>
+    <?php
+    if($neotiqHelperData->getConfig('neotiq_boxprint_config/general/svg_path_download') && file_exists($neotiqHelperData->getConfig('neotiq_boxprint_config/general/svg_path_download').$workspaceId.'.svg')){
+         $workspace_svg = file_get_contents($neotiqHelperData->getConfig('neotiq_boxprint_config/general/svg_path_download').$workspaceId.'.svg');
+    }else{
+        $workspace_svg= $workspace->getData('workspace_svg');
+    }?>
+    <div class="boxprint-popup-content-svg">
+        <?php echo $workspace_svg;?>
+    </div>
+<?php else:?>
+
+<?php endif;?>

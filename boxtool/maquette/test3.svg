@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 155 100" preserveAspectRatio="xMinYMin meet">
+    <path id="1" fill="pink" stroke-width="0.5" stroke="black" d="
+M5 5
+L5 55
+L12 55
+L12 54
+L98 54
+L98 55
+L105 55
+L105 5 Z" />
+    <path id="2" fill="grey" stroke-width="0.5" stroke="black" d="
+M6 55 q0 10 9 20
+L95 75
+M95 75 q9 -10 9 -20
+L98 55
+L98 54
+L12 54
+L12 55
+L6 55" />
+    <line stroke-width="0.5" x1="12" y1="54" x2="98" y2="54" style=" stroke:red" />
+</svg>

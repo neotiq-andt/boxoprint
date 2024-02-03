@@ -1,0 +1,30 @@
+// /**
+//  * Copyright © Magento, Inc. All rights reserved.
+//  * See COPYING.txt for license details.
+//  */
+
+& when (@media-common = true) {
+    .lib-magento-reset(); // Reset default styles with magento-reset
+    /* width */
+    ::-webkit-scrollbar {
+        width: 5px;
+        height: 7px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: #F2F2F2;
+        border-radius: 10px;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: @button-color;
+        border-radius: 10px;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: @button-color;
+    }
+}

@@ -1,0 +1,107 @@
+<?php
+if($block->isEnable()){
+    if(!$block->isLoggedIn()): ?>
+        <div id="mdqlogin-popup-trigger" style="display: none"><?php echo __('Registered Customers')?></div>
+        <div id="mdqlogin-popup" style="display: none">
+            <div id="popup-modal" >
+                <form class="form form-login mdqpopup-login"
+                      method="post"
+                      id="login-form"
+                      data-mage-init='{"validation":{}}'>
+                    <?= $block->getBlockHtml('formkey') ?>
+                    <fieldset class="fieldset login" data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) ?>">
+                        <div class="error-message-signin"></div>
+                        <div class="field email-popup required">
+                            <label class="label" for="email"><span><?= $block->escapeHtml(__('Email')) ?></span></label>
+                            <div class="control">
+                                <input name="login[username]" value="<?= $block->escapeHtmlAttr($block->getUsername()) ?>" <?php if ($block->isAutocompleteDisabled()) : ?> autocomplete="off"<?php endif; ?> id="email" type="email" class="input-text" title="<?= $block->escapeHtmlAttr(__('Email')) ?>" data-mage-init='{"mage/trim-input":{}}' data-validate="{'required':true, 'validate-email':true}">
+                            </div>
+                        </div>
+                        <div class="field password-popup required">
+                            <label for="pass" class="label"><span><?= $block->escapeHtml(__('Password')) ?></span></label>
+                            <div class="control">
+                                <input name="login[password]" type="password" <?php if ($block->isAutocompleteDisabled()) : ?> autocomplete="off"<?php endif; ?> class="input-text" id="pass" title="<?= $block->escapeHtmlAttr(__('Password')) ?>" data-validate="{'required':true}">
+                            </div>
+                        </div>
+                        <?= $block->getChildHtml('form_additional_info') ?>
+                        <div class="forgotpassword">
+                            <div class="secondary"><a class="action remind" href="<?= $block->escapeUrl($block->getForgotPasswordUrl()) ?>"><span><?= $block->escapeHtml(__('Forgot Your Password?')) ?></span></a></div>
+                        </div>
+                        <div class="actions-toolbar">
+                            <div class="primary"><button type="submit" class="action login primary signinup-btn" name="send" id="send2"><span><?= $block->escapeHtml(__('Log In')) ?></span></button></div>
+                        </div>
+                        <div class="register-linkpopup"><span><?php echo __('New Here?') ?></span>&nbsp;<a href="#" class="register-sigininpopup"><?php echo __('Register') ?></a></div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            require([
+                'jquery',
+                'Magento_Ui/js/modal/modal',
+                'mage/translate'
+            ], function($,modal) {
+                var options = {
+                    'type': 'popup',
+                    'title': $.mage.__('Connectez-vous'),
+                    'responsive': true,
+                    'innerScroll': true,
+                    buttons: []
+                };
+
+                $(document).ready(function(){
+                    $('#mdqlogin-popup-trigger').on('click', function(loginevent){
+                        loginevent.preventDefault();
+                        var popup = modal(options, $('#mdqlogin-popup'));
+                        $("#mdqlogin-popup").modal("openModal");
+                    });
+                    $('.signinup-btn').click(function(e){
+                        var siginindata = $('.mdqpopup-login').serialize();
+                        var urlsiginin = "<?php echo $block->getBaseUrl().'mdqajaxlogin/index/login/' ?>";
+                        if ($('.mdqpopup-login').valid()) {
+                            $.ajax({
+                                url: urlsiginin,
+                                type: "POST",
+                                data: siginindata,
+                                showLoader: true,
+                                success: function(data){
+                                    if(data.error) {
+                                        $('.error-message-signin').empty().append('<div class="message message-error error">'+data.message+'</div>');
+                                    }else {
+                                        $('.error-message-signin').empty().append('<div class="message-success success message">'+data.message+'</div>');
+                                        //$("#mdqlogin-popup").modal("closeModal");
+                                    }
+                                    $('#mdqlogin-popup').on('modalclosed', function() {
+                                        $('form#mdqpopup-login input[type="text"]').val('');
+                                    });
+                                    $('#mddq-boxoprint').attr('data-mdqlg',1);
+                                }
+                            });
+                        }else {
+                            e.preventDefault();
+                        }
+                        return false;
+                    });
+                    var optionregister = {
+                        'type': 'popup',
+                        'title': $.mage.__('Créer mon compte'),
+                        'responsive': true,
+                        'innerScroll': true,
+                        'buttons': []
+                    };
+                    $('.register-sigininpopup').on('click', function(registerevent){
+                        registerevent.preventDefault();
+                        var popup = modal(optionregister, $('.mdqpopup-acreate'));
+                        $("#mdqlogin-popup").modal("closeModal");
+                        $(".mdqpopup-acreate").modal("openModal");
+                    });
+
+                    $('#mdqlogin-popup').on('modalclosed', function() {
+                        $('form#mdqpopup-login input[type="text"]').val('');
+                    });
+                });
+            });
+        </script>
+    <?php endif;
+}?>

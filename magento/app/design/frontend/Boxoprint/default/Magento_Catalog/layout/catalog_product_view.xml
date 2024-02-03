@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="product.info.review" remove="true" />
+        <referenceBlock name="product.info.configurable" remove="true" />
+        <referenceBlock name="product.info.virtual" remove="true" />
+        <referenceBlock name="product.info.simple" remove="true" />
+        <referenceBlock name="reviews.tab" remove="true" />
+        <referenceBlock name="product.info.overview" remove="true" />
+        <referenceBlock name="view.addto.compare" remove="true" />
+        <referenceBlock name="view.addto.wishlist" remove="true" />
+        <referenceBlock name="catalog.product.related" remove="true"/>
+        <!--<move element="page.main.title" destination="product.info.media" before="-"/>
+        <move element="product.info.sku" destination="product.info.media" after="page.main.title" />
+        <move element="product.info.overview" destination="product.info.media" after="product.info.sku"/>-->
+        <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.sku.custom" template="Magento_Catalog::product/view/attribute.phtml" after="-">
+            <arguments>
+                <argument name="at_call" xsi:type="string">getSku</argument>
+                <argument name="at_code" xsi:type="string">sku</argument>
+                <argument name="css_class" xsi:type="string">sku</argument>
+                <argument name="at_label" xsi:type="string">default</argument>
+                <argument name="add_attribute" xsi:type="string">itemprop="sku"</argument>
+            </arguments>
+        </block>
+        <move element="product.info.sku.custom" destination="page.main.title" after="-"/>
+        <referenceBlock name="product.info.details" remove="true"/>
+        <!-- <referenceBlock name="product.info" remove="true"/> -->
+        <referenceBlock name="product.price.tier" remove="true"/>
+        <referenceContainer name="product.info.price" remove="true" />
+        <referenceContainer name="alert.urls" remove="true" />
+        <referenceContainer name="product.info.extrahint" remove="true" />
+        <referenceContainer name="product.info.main">
+            <block class="Magento\Catalog\Block\Product\View" name="product.info.config.boxprint" after="-" template="Magento_Catalog::product/view/boxprint.phtml"/>
+        </referenceContainer>
+		<referenceBlock name="product.info.upsell" remove="true"/>
+        <move element="product.info.description" destination="product.info.main" before="product.info.config.boxprint"/>
+<!--        <referenceContainer name="product.info.price">-->
+<!--            <block class="Magento\Catalog\Block\Product\View" name="neotiq.product.info.price.price_before" template="Magento_Catalog::product/view/price_before.phtml" before="product.price.final"  />-->
+<!--        </referenceContainer>-->
+<!--        <referenceBlock name="product.info.upsell">-->
+<!--            <action method="setTemplate">-->
+<!--                <argument name="template" xsi:type="string">Magento_Catalog::product/list/up_sell.phtml</argument>-->
+<!--            </action>-->
+<!--        </referenceBlock>-->
+<!--        <move element="product.info.upsell" destination="product.info.main" after="product.info.config.boxprint"/>-->
+    </body>
+</page>

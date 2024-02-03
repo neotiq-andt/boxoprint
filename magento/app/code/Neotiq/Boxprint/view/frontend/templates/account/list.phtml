@@ -1,0 +1,139 @@
+<?php if ($block->getPagerHtml()): ?>
+    <div class="order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
+<?php endif ?>
+<?php $gridrecords = $block->workspaceCollection(); ?>
+<?php if ($gridrecords && sizeof($gridrecords)): ?>
+    <div class="table-wrapper orders-history">
+        <table class="data table table-order-items history" id="my-workspace-table">
+            <caption class="table-caption"><?php echo __('Grid Record') ?></caption>
+            <thead>
+            <tr>
+                <th scope="col" class="col title"><?php echo __('Created At') ?></th>
+                <th scope="col" class="col product"><?php echo __('Design') ?></th>
+                <th scope="col" class="col product"><?php echo __('Image') ?></th>
+                <th scope="col" class="col product"><?php echo __('Action') ?></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php
+            foreach ($gridrecords as $gridrecord): ?>
+                <?php
+                    $neotiqAccountHelper = $this->helper('Neotiq\Boxprint\Helper\Account');
+                    $_product_url_workspace = '#';
+                    $imageProduct = '';
+                    if($gridrecord->getProductId()){
+                        if($neotiqAccountHelper->getProductById($gridrecord->getProductId())){
+                            $product = $neotiqAccountHelper->getProductById($gridrecord->getProductId());
+                            $_product_url_workspace = $product->getProductUrl().'?boxo='.$gridrecord->getId();
+                            $imageProduct = $block->getProductImage($product);
+                        }
+                    }
+
+                ?>
+                <tr data-mdq-witem="<?php echo $gridrecord->getId();?>">
+                    <td data-th="<?= $block->escapeHtml(__('Created At')) ?>" class="col title">
+                        <?php echo date('Y-m-d', strtotime($gridrecord->getDate())); ?>
+                    </td>
+                    <td data-th="<?= $block->escapeHtml(__('Design')) ?>" class="col product">
+                        <?php echo $gridrecord->getNameProject() ?>
+                    </td>
+                    <td data-th="<?= $block->escapeHtml(__('Image')) ?>" class="col product">
+                        <?php if($imageProduct):?>
+                            <img src="<?php echo $imageProduct?>"/>
+                        <?php endif;?>
+                    </td>
+                    <td data-th="<?= $block->escapeHtml(__('Action')) ?>" class="col product">
+                        <div class="my-boxoprint"><p class="view-all" data-mdq-workspaceId="<?php echo $gridrecord->getId()?>"><?php echo __('Des détails')?></p></div>
+                        <div class="my-boxoprint-edit"><p class="edit"><a target="_blank" href="<?php echo $_product_url_workspace ?>"><?php echo __('Ajouter')?></a></p></div>
+                        <div class="my-boxoprint-delete"><p class="delete" data-mdq-dworkspaceId="<?php echo $gridrecord->getId()?>"><a  href="javascript:void(0)"><?php echo __('Delete')?></a></p></div>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <?php if ($block->getPagerHtml()): ?>
+        <div class="order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
+    <?php endif ?>
+<?php else: ?>
+    <div class="message info empty"><span><?php echo __('No any record.'); ?></span></div>
+<?php endif ?>
+
+<script type="text/javascript">
+    require(['jquery','Magento_Ui/js/modal/confirm','domReady!','mage/translate'], function($, confirmation){
+        $('.my-boxoprint .view-all').click(function(e){
+            e.preventDefault();
+            var box_view_all = '<?php echo $this->getUrl('mdqboxprint/index/info')?>';
+            var productId = '';
+            var box_workspace_id = $(this).attr('data-mdq-workspaceId');
+            $.ajax({
+                type: "POST",
+                url: box_view_all,
+                data: {
+                    productId:productId,
+                    workspaceId:box_workspace_id
+                },
+                showLoader: true,
+                dataType: 'json',
+                success: function(responseData)
+                {
+                    if(responseData.mdq_boxprint_info!='') {
+                        confirmation({
+                            title: $.mage.__('Des détails'),
+                            content: responseData.mdq_boxprint_info,
+                            buttons: [],
+                            modalClass: 'boxprint-popup-viewall',
+                        });
+                    }
+                }
+            });
+        });
+
+        $('.my-boxoprint-delete .delete').click(function(e){
+            var delete_workspace = $(this).attr('data-mdq-dworkspaceId');
+            var box_delete = '<?php echo $this->getUrl('mdqboxprint/index/deletew')?>';
+			var dq_form_key = $('input[name="form_key"]').val();
+            confirmation({
+                title: 'vous voulez supprimer ?',
+                content: '',
+                actions: {
+                    confirm: function () {
+
+                    },
+
+                    cancel: function () {
+                        return false;
+                    }
+                },
+                buttons: [{
+                    text: $.mage.__('Non'),
+                    class: 'action-secondary action-dismiss',
+                    click: function (event) {
+                        this.closeModal(event);
+                    }
+                }, {
+                    text: $.mage.__('Oui'),
+                    class: 'action primary action-accept',
+                    click: function (event) {
+                        $.ajax({
+                            type: "POST",
+                            url: box_delete,
+                            data: {
+                                workspaceId:delete_workspace,
+                                customerEmail :'<?php echo $block->getCustomer()->getEmail()?>',
+								form_key:dq_form_key
+                            },
+                            showLoader: true,
+                            dataType: 'json',
+                            success: function(responseData)
+                            {
+                                window.location.reload();
+                            }
+                        });
+                    }
+                }
+                ]
+            });
+        });
+    });
+</script>

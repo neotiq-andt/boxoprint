@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="before.body.end">
+            <block class="Neotiq\Ajaxlogin\Block\Login" name="customer-popup-login" template="Neotiq_Ajaxlogin::login.phtml" />
+            <block class="Neotiq\Ajaxlogin\Block\Register" name="customer-popup-register" template="Neotiq_Ajaxlogin::register.phtml"   />
+        </referenceContainer>
+    </body>
+</page>

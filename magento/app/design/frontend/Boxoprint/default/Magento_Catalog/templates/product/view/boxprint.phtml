@@ -1,0 +1,107 @@
+<div class="product-boxoprint">
+    <button type="submit" title="<?php echo __('CONFIGURER 3D')?>" class="action primary" id="product-configbox-button">
+        <span><?=  __('CONFIGURER 3D')?></span>
+    </button>
+</div>
+<div id="mddq-boxoprint" class="mddq-boxoprint mddq-popup">
+    <div class="mddq-boxoprint-popup">
+        <span class="mddq-boxoprint-close"></span>
+        <div class="mddq-boxoprint-popup-content">
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    require(['jquery','Magento_Ui/js/modal/confirm','domReady!','mage/translate'], function($, confirmation){
+        $('.product-boxoprint .action').click(function(e){
+            e.preventDefault();
+            //window.location.href='/boxo-frontend/';
+            var box_url = 'https://boxoprint.neotiq.net/boxo-frontend/workspace/1';
+            var data = {};
+            $.ajax({
+                type: "POST",
+                url: box_url,
+                data: data,
+				showLoader: true,
+                dataType: 'html',
+                success: function(responseData,textStatus, xhr)
+                {
+					$('#mddq-boxoprint').addClass('active');
+                    $('body.catalog-product-view').addClass('mddq-popup-show');
+                    $('#mddq-boxoprint .mddq-boxoprint-popup-content').html('');
+                    $('#mddq-boxoprint .mddq-boxoprint-popup-content').append('<iframe name="popup_iframe" id="popup_iframe" src="about:blank" frameborder="0" scrolling="no"></iframe>');
+                    var dstFrame = document.getElementById('popup_iframe');
+                    //dstFrame.src = box_url;
+                    var dstDoc = dstFrame.contentDocument || dstFrame.contentWindow.document;
+                    //var iFrame = $('#popup_iframe');
+                    //var iFrameDoc = iFrame[0].contentDocument || iFrame[0].contentWindow.document;
+                    dstDoc.write(responseData);
+                    dstDoc.close()
+
+					$('#mddq-boxoprint').on('click', function (e) {
+						var mdq_arget = $(e.target);
+						if (mdq_arget.hasClass('mddq-boxoprint') || mdq_arget.hasClass('mddq-boxoprint-close')) {
+							 confirmation({
+								title: 'Souhaitez vous fermer cette fenêtre ?',
+								content: '',
+								actions: {
+									confirm: function () {
+
+									},
+
+									cancel: function () {
+										return false;
+									}
+								},
+								buttons: [{
+									text: $.mage.__('Non'),
+									class: 'action-secondary action-dismiss',
+									click: function (event) {
+										this.closeModal(event);
+									}
+								}, {
+									text: $.mage.__('Oui'),
+									class: 'action primary action-accept',
+									click: function (event) {
+										$('#mddq-boxoprint').removeClass('active');
+										$('body.catalog-product-view').removeClass('mddq-popup-show');
+										this.closeModal(event);
+									}
+								}
+								]
+							});
+						}
+					});
+
+                },
+                error: function (jqXHR, exception, error)
+                {
+                    var msg = '';
+                    if (jqXHR.status === 0) {
+                        msg = 'Not connect.\n Verify Network.';
+                    } else if (jqXHR.status == 404) {
+                        msg = 'Requested page not found. [404]';
+                    } else if (jqXHR.status == 500) {
+                        msg = 'Internal Server Error [500].';
+                    } else if (exception === 'parsererror') {
+                        msg = 'Requested JSON parse failed.';
+                    } else if (exception === 'timeout') {
+                        msg = 'Time out error.';
+                    } else if (exception === 'abort') {
+                        msg = 'Ajax request aborted.';
+                    } else {
+                        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                    }
+                    console.log(msg);
+                    // $('#status').empty();
+                    // $('#status').show();
+                    // $("#status").attr("class", "error");
+                    // $('#status').html("▼ " + msg).addClass('error');
+                    // var div = document.getElementById('status');
+                    // div.innerHTML += " ▼";
+                    // div.innerHTML += jqXHR.responseText;
+                }
+            })
+        })
+    });
+</script>

@@ -1,0 +1,46 @@
+version: '3'
+services:
+  web:
+      build: .
+      command: npm start
+      volumes:
+        - ./src/app:/usr/src/app:ro
+        - /etc/letsencrypt:/etc/letsencrypt
+        - ./ui/build:/var/www/html
+      restart: on-failure
+      networks:
+        - frontend
+        - backend
+      ports:
+        - "8080:8080"
+      depends_on:
+        - mysql
+        - sshd
+      environment:
+        - PATH_WWW=/var/www/html
+
+  mysql:
+      image: mysql/mysql-server:latest
+      volumes:
+        - ./database-init:/docker-entrypoint-initdb.d
+        - ./docker-databases/cartonnage:/var/lib/mysql
+      environment:
+        - MYSQL_ROOT_PASSWORD=root
+      networks:
+        backend:
+          aliases:
+            - database
+
+  sshd:
+      build: ./sshd/
+      volumes:
+        - ./src/app/templates:/root/templates
+      networks:
+        - frontend
+      ports:
+        - "2222:22"
+
+networks:
+  frontend:
+  backend:
+  

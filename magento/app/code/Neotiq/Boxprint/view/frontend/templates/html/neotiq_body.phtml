@@ -1,0 +1,47 @@
+<script type="text/javascript">
+    require(['jquery','Magento_Ui/js/modal/confirm','domReady!','mage/translate'], function($, confirmation){
+        $.ajax({
+            type: "GET",
+            url: '<?php echo $this->getUrl("mdqboxprint/index/checkcart")?>',
+            dataType: 'json',
+            data: {
+
+            },
+            success: function(responseData,textStatus, xhr)
+            {
+               if(responseData.check){
+                    var mdqcarUrl = '<?php echo $this->getUrl("checkout/cart/index") ?>';
+                    confirmation({
+                        title: '',
+                        content: $.mage.__('Merci pour votre retour, votre panier a été mis à jour.'),
+                        closed: function (e) {
+                            $.ajax({
+                                    type: "POST",
+                                    url: '<?php echo $this->getUrl("mdqboxprint/index/removeCart")?>',
+                                    dataType: 'json',
+                                    data: {
+                                        form_key : $('input[name="form_key"]').val()
+                                    },
+                                    success: function(responseData,textStatus, xhr)
+                                    {
+                                        if(responseData.remove){
+                                            $('[data-block="minicart"]').trigger('contentUpdated');
+                                        }
+                                    }
+                            });
+                        },
+                        buttons: [
+
+                        ],
+                        modalClass: 'mdq-popup-check',
+
+                    });
+                }
+            },
+            error: function (jqXHR, exception, error)
+            {
+
+            }
+        });
+    });
+</script>

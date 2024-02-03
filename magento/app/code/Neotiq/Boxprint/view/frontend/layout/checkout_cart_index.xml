@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+<!--        <referenceBlock name="additional.product.info">-->
+<!--            <action method="setTemplate">-->
+<!--                <argument name="template" xsi:type="string">Neotiq_Boxprint::cart/additional/info.phtml</argument>-->
+<!--            </action>-->
+<!--        </referenceBlock>-->
+		<referenceContainer name="checkout.cart.container">
+            <block class="Neotiq\Boxprint\Block\BoxProduct"
+                   name="checkout.cart.boxproduct" as="mddq_boxproduct"
+                   template="Neotiq_Boxprint::checkout/boxproduct.phtml"
+                   after="checkout.cart.form" />
+        </referenceContainer>
+        <referenceContainer name="checkout.cart.container">
+            <container name="cart.left" htmlTag="div" htmlClass="cart-left" before="-" />
+            <container name="cart.right" htmlTag="div" htmlClass="cart-right" after="-" />
+        </referenceContainer>
+        <move element="checkout.cart.form" destination="cart.left" before="-" />
+        <move element="checkout.cart.boxproduct" destination="cart.left" after="block.banner.cart" />
+        <move element="checkout.cart.crosssell" destination="cart.left" after="checkout.cart.boxproduct" />
+        <move element="cart.summary" destination="cart.right" before="-" />
+        <referenceBlock name="checkout.cart.coupon" remove="true"/>
+        <block class="Magento\Checkout\Block\Cart\Coupon" name="checkout.cart.showcouponbefortotal" as="coupon" template="Magento_Checkout::cart/coupon.phtml"/>
+        <move element="checkout.cart.showcouponbefortotal" destination="cart.summary" before="checkout.cart.totals.container"/>
+    </body>
+</page>

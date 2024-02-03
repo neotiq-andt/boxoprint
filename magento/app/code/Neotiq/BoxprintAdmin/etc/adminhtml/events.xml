@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * custom ducdevphp@gmail.com
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="controller_action_catalog_product_save_entity_after">
+        <observer name="neotiq_boxprint_workspace_save_entity_after" instance="Neotiq\BoxprintAdmin\Observer\SaveProductWorkspace" />
+    </event>
+    <event name="catalog_product_save_after">
+        <observer name="neotiq_boxprint_workspace_save_afterr" instance="Neotiq\BoxprintAdmin\Observer\SaveProductWorkspaceModel" />
+    </event>
+</config>

@@ -1,0 +1,240 @@
+<?php
+$neotiqHelperData = $this->helper('Neotiq\Neotiq\Helper\Data');
+$neotiqBoxprintHelperData = $this->helper('Neotiq\Boxprint\Helper\Data');
+$neotiqBoxprintHelperCookie = $this->helper('Neotiq\Boxprint\Helper\Cookie');
+$showBoxImg = false;
+$showBoxData = true;
+$showBoxSVG = true;
+$cookieName = \Neotiq\Boxprint\Helper\Cookie::CONNECTOR_COOKIE_NAME;
+$cookieLifetime = \Neotiq\Boxprint\Helper\Cookie::DEFAULT_COOKIE_LIFETIME;
+$cookiePath = $neotiqBoxprintHelperData->createModel('Magento\Framework\Session\SessionManagerInterface')->getCookiePath();
+$cookieDomain = $neotiqBoxprintHelperData->createModel('Magento\Framework\Session\SessionManagerInterface')->getCookieDomain();
+$symbol = $neotiqBoxprintHelperData->getSymbol();
+$customerSession = $neotiqHelperData->getCustomerSession();
+$customer_email = '';
+$baseUrl = $neotiqBoxprintHelperData->getBaseUrlByType(\Magento\Framework\UrlInterface::URL_TYPE_WEB);
+if($customerSession->isLoggedIn()) {
+    $customer_email =  $customerSession->getCustomer()->getEmail();
+}
+$boxo_id = (int)$block->getRequest()->getParam('boxo');
+?>
+<?php if($boxo_id || $neotiqBoxprintHelperData->getWorkspaceByProduct()):?>
+    <div class="product-boxoprint">
+        <button type="submit" title="<?php echo __('CONFIGURER 3D')?>" class="action primary" id="product-configbox-button">
+            <span><?=  __('CONFIGURER 3D')?></span>
+        </button>
+    </div>
+    <?php
+    $box_cookie= [['productId'=>$neotiqHelperData->getCurrentProduct()->getId(),'workspaces'=>[$neotiqBoxprintHelperData->getWorkspaceByProduct()->getWorkspaceId()],'workspace'=>$neotiqBoxprintHelperData->getWorkspaceByProduct()->getWorkspaceId()]];
+    $box_cookie_en = json_encode($box_cookie);
+    $_product = $neotiqHelperData->getCurrentProduct();
+    $price_product = $_product->getPrice();
+    $workspace_id ='';
+	$name_porject = '';
+	$productUrl = $_product->getProductUrl();
+    if($boxo_id && $neotiqBoxprintHelperData->checckCustomerWorkspaceById($boxo_id)){
+        $workspace = $neotiqBoxprintHelperData->getWorkspaceById($boxo_id);
+        $price_product = $workspace->getWorkspacePrice();
+        $workspace_id = $workspace->getWorkspaceId();
+		$name_porject = $workspace->getNameProject();
+    }
+    if((!$boxo_id || ($boxo_id && !$neotiqBoxprintHelperData->checckCustomerWorkspaceById($boxo_id))) && $neotiqBoxprintHelperData->getWorkspaceByProduct()){
+        $workspace = $neotiqBoxprintHelperData->getWorkspaceByProduct();
+        $price_product = $_product->getPrice();
+        $workspace_id = $workspace->getWorkspaceId();
+    }
+    ?>
+    <div id="mddq-boxoprint" class="mddq-boxoprint mddq-popup" data-mdqlg="<?php echo $customerSession->isLoggedIn() ? 1 : 0; ?>">
+        <div class="mddq-boxoprint-popup">
+            <span class="mddq-boxoprint-close hidden"></span>
+            <div class="mddq-boxoprint-popup-content">
+                <form class="box-form-popup" id="box-form-popup" data-mage-init='{"validation": {}}' method="post" autocomplete="off">
+                    <fieldset class="fieldset">
+                        <legend class="legend"><span><?php echo __('Nom du modèle') ?></span></legend><br>
+                        <div class="field required">
+                            <div class="control">
+                                <input type="text" name="designName" id="designName" value="<?php echo $name_porject ?>" title="<?php echo __('Nom du modèle') ?>" class="input-text" data-validate="{required:true}">
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div class="actions-toolbar">
+                        <button type="submit" class="action submit primary" title="<?php  echo __('Submit') ?>"><span><?php echo __('Submit') ?></span></button>
+                        <div class="action submit primary cancer" title="<?php  echo __('Annuler') ?>"><span><?php echo __('Annuler') ?></span></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        require(['jquery','Magento_Ui/js/modal/confirm','domReady!','mage/translate','mage/cookies','mage/mage'], function($, confirmation){
+            window.onmessage = function(e) {
+                if (e.data == 'closeIframe') {
+                    $('#mddq-boxoprint').removeClass('active');
+                    $('body.catalog-product-view').removeClass('mddq-popup-show');
+					$('#mddq-boxoprint').addClass('cancer');
+                }
+                if (e.data == 'callbackLogin') {
+                    $('#mdqlogin-popup-trigger').trigger('click');
+                }
+                if (e.data.name == 'callBackSaveProject') {
+                    var formData = e.data.formData;
+                    $("#box-workspace").val(formData.workspace_id);
+                    $("#box-dataprice").val(formData.price);
+                    $('.product-info-main .price-box .price').html(formData.price + ' €');
+                    $('.boxoprint-img img').attr('src',formData.image_base);
+                    if($('.boxprint-svg').length > 0){
+                        $('.boxprint-svg').replaceWith('<div class="boxoprint-img"><img src="'+formData.image_base+'"/></div>');
+                    }
+                    $('#product-addtocart-button').trigger('click');
+                }
+				if (e.data == 'callBackResultSaveProject') {
+                    confirmation({
+                        title: '',
+                        content: $.mage.__('Votre design a été enregistré sur votre compte.'),
+                        buttons: [],
+                        modalClass: 'mdq-popup-save',
+						clickableOverlay:false
+                    });
+                }
+            };
+            $('#box-form-popup .action.primary.cancer').click(function(){
+                $('#mddq-boxoprint').removeClass('active');
+                $('#mddq-boxoprint').removeClass('form-design');
+                $('#mddq-boxoprint').css({"position": "fixed","height":0});
+            });
+
+            $('.product-boxoprint .action').click(function(e){
+                e.preventDefault();
+                $('#mddq-boxoprint').addClass('active');
+                var page_main_height = $('.page-main').height();
+				if(!$('#mddq-boxoprint').hasClass('cancer')){
+					$('#mddq-boxoprint').addClass('form-design');
+					$('#mddq-boxoprint').css({"position": "fixed","height":"100%","overflow": "hidden"});
+				}else{
+					$('#mddq-boxoprint').css({"position": "absolute","height":page_main_height});
+				}
+				<?php if(!$boxo_id):?>
+					$(':input','#box-form-popup').not(':button, :submit, :reset, :hidden').val('').removeAttr('checked').removeAttr('selected');
+				<?php endif;?>
+       
+                $("#box-form-popup").submit(function(ef) {
+                    if($('#box-form-popup').valid()) {
+                        ef.preventDefault();
+                        var dq_desgin_name = $('#designName').val();
+                        var dq_workspace_id = $('#box-workspace').val();
+						var dq_form_key = $('input[name="form_key"]').val();
+                        var productId = '<?php echo $neotiqHelperData->getCurrentProduct()->getId();?>';
+                        var productName = "<?php echo $neotiqHelperData->getCurrentProduct()->getName();?>";
+						var baseUrl = "<?php echo $baseUrl ?>";
+						var currentUrl = "<?php echo $productUrl ?>";
+						var loginUrl = '<?php echo $this->getUrl("mdqajaxlogin/index/loginrq")?>';
+						var registerUrl = '<?php echo $this->getUrl("mdqajaxlogin/index/registerrq")?>';
+                        var box_url = '<?php echo $neotiqBoxprintHelperData->getBoxprintUrl()?>' + dq_workspace_id +'?productName='+productName + '&designName=' + dq_desgin_name + '&formKey=' + dq_form_key + '&baseUrl=' + baseUrl + '&currentUrl=' + currentUrl + '&loginUrl='+loginUrl + '&registerUrl=' + registerUrl + '&productId=' + productId;
+                        <?php if($customer_email):?>
+                        box_url = '<?php echo $neotiqBoxprintHelperData->getBoxprintUrl()?>' + dq_workspace_id +'?productName='+productName + '&designName=' + dq_desgin_name +'&customerEmail='+'<?php echo $customer_email;?>' + '&formKey=' + dq_form_key + '&baseUrl=' + baseUrl + '&currentUrl=' + currentUrl + '&loginUrl='+loginUrl + '&registerUrl=' + registerUrl + '&productId=' + productId;
+                        <?php endif;?>
+                        var data = {productId:productId};
+                        $.ajax({
+                            type: "GET",
+                            url: box_url,
+                            //data: data,
+                            showLoader: true,
+                            dataType: 'html',
+                            success: function(responseData,textStatus, xhr)
+                            {
+                                //$("#box-form-popup").reset();
+                                $(':input','#box-form-popup').not(':button, :submit, :reset, :hidden').val('').removeAttr('checked').removeAttr('selected');
+                                $('#mddq-boxoprint').addClass('active');
+                                var page_main_height = $('.page-main').height();
+                                $('#mddq-boxoprint').css({"position": "absolute","height":page_main_height});
+                                $( window ).resize(function() {
+                                    page_main_height = $('.page-main').height();
+                                    $('#mddq-boxoprint').css({"position": "absolute","height":page_main_height});
+                                });
+                                $('body.catalog-product-view').addClass('mddq-popup-show');
+                                $('#mddq-boxoprint').removeClass('form-design');
+								$('#mddq-boxoprint').removeClass('cancer');
+                                $('#mddq-boxoprint .mddq-boxoprint-popup-content').html('');
+                                $('#mddq-boxoprint .mddq-boxoprint-popup-content').append('<iframe name="popup_iframe" id="popup_iframe" src="'+ box_url +'" frameborder="0" scrolling="no"></iframe>');
+                                var dstFrame = document.getElementById('popup_iframe');
+                                //dstFrame.src = box_url;
+                                var dstDoc = dstFrame.contentDocument || dstFrame.contentWindow.document;
+                                //var iFrame = $('#popup_iframe');
+                                //var iFrameDoc = iFrame[0].contentDocument || iFrame[0].contentWindow.document;
+                                dstDoc.srcdoc = responseData;
+                                dstDoc.close();
+
+                                $('#mddq-boxoprint').on('click', function (e) {
+                                    var mdq_arget = $(e.target);
+                                    if (mdq_arget.hasClass('mddq-boxoprint') || mdq_arget.hasClass('mddq-boxoprint-close')) {
+                                        confirmation({
+                                            title: 'Souhaitez vous fermer cette fenêtre ?',
+                                            content: '',
+                                            actions: {
+                                                confirm: function () {
+
+                                                },
+
+                                                cancel: function () {
+                                                    return false;
+                                                }
+                                            },
+                                            buttons: [{
+                                                text: $.mage.__('Non'),
+                                                class: 'action-secondary action-dismiss',
+                                                click: function (event) {
+                                                    this.closeModal(event);
+                                                }
+                                            }, {
+                                                text: $.mage.__('Oui'),
+                                                class: 'action primary action-accept',
+                                                click: function (event) {
+                                                    $('#mddq-boxoprint').removeClass('active');
+                                                    $('#mddq-boxoprint').css({"position": "fixed","height":0});
+                                                    $('body.catalog-product-view').removeClass('mddq-popup-show');
+                                                    this.closeModal(event);
+                                                }
+                                            }
+                                            ]
+                                        });
+                                    }
+                                });
+
+                            },
+                            error: function (jqXHR, exception, error)
+                            {
+                                var msg = '';
+                                if (jqXHR.status === 0) {
+                                    msg = 'Not connect.\n Verify Network.';
+                                } else if (jqXHR.status == 404) {
+                                    msg = 'Requested page not found. [404]';
+                                } else if (jqXHR.status == 500) {
+                                    msg = 'Internal Server Error [500].';
+                                } else if (exception === 'parsererror') {
+                                    msg = 'Requested JSON parse failed.';
+                                } else if (exception === 'timeout') {
+                                    msg = 'Time out error.';
+                                } else if (exception === 'abort') {
+                                    msg = 'Ajax request aborted.';
+                                } else {
+                                    msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+
+
+            var cookieName = '<?php echo $cookieName?>';
+            if (!$.mage.cookies.get(cookieName)) {
+                //   var cookieLifetime = '<?php echo $cookieLifetime;?>';
+                //var cookieDomain = '<?php echo $cookieDomain ?>';
+                //var cookiePath = '<?php echo $cookiePath ?>';
+                // var cookieValue = '<?php echo $box_cookie_en ?>';
+                // var cookieExpires = new Date(new Date().getTime() + cookieLifetime * 1000);
+                // $.mage.cookies.set(cookieName,cookieValue, {expires: cookieExpires, path:cookiePath, domain:cookieDomain});
+            }
+        });
+    </script>
+<?php endif;?>

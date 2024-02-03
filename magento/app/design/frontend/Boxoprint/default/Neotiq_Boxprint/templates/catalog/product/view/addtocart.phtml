@@ -1,0 +1,90 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var $block \Magento\Catalog\Block\Product\View */
+?>
+<?php $_product = $block->getProduct(); ?>
+<?php $buttonTitle = __('Add to Cart'); ?>
+<?php
+$neotiqBoxprintHelperData = $this->helper('Neotiq\Boxprint\Helper\Data');
+?>
+<?php if ($_product->isSaleable()) :?>
+    <div class="box-tocart hidden">
+        <div class="fieldset">
+            <div class="actions">
+                <button type="submit"
+                        title="<?= $block->escapeHtmlAttr($buttonTitle) ?>"
+                        class="action primary tocart"
+                        id="product-addtocart-button" disabled>
+                    <span><?= $block->escapeHtml($buttonTitle) ?></span>
+                </button>
+                <?= $block->getChildHtml('', true) ?>
+            </div>
+            <?php if ($block->shouldRenderQuantity()) :?>
+                <div class="field qty">
+                    <label class="label" for="qty"><span><?= $block->escapeHtml(__('Qty')) ?></span></label>
+                    <div class="control">
+                        <input type="number"
+                               name="qty"
+                               id="qty"
+                               min="0"
+                               value="<?= $block->getProductDefaultQty() * 1 ?>"
+                               title="<?= $block->escapeHtmlAttr(__('Qty')) ?>"
+                               class="input-text qty"
+                               data-validate="<?= $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>"
+                        />
+                    </div>
+                </div>
+                <?php $boxo_id = (int)$block->getRequest()->getParam('boxo'); ?>
+                <?php if($neotiqBoxprintHelperData->getWorkspaceByProduct() || $boxo_id):?>
+                    <?php
+                    $price_product = $_product->getPrice();
+                    $workspace_id ='';
+                    if($boxo_id && $neotiqBoxprintHelperData->checckCustomerWorkspaceById($boxo_id)){
+                        $workspace = $neotiqBoxprintHelperData->getWorkspaceById($boxo_id);
+                        $price_product = $workspace->getWorkspacePrice();
+                        $workspace_id = $workspace->getWorkspaceId();
+                    }
+                    if((!$boxo_id || ($boxo_id && !$neotiqBoxprintHelperData->checckCustomerWorkspaceById($boxo_id))) && $neotiqBoxprintHelperData->getWorkspaceByProduct()){
+                        $workspace = $neotiqBoxprintHelperData->getWorkspaceByProduct();
+                        $price_product = $_product->getPrice();
+                        $workspace_id = $workspace->getWorkspaceId();
+                    }
+                    ?>
+                    <div id="mdq-boxupdate">
+                        <input id="box-dataupdate" class="hidden"
+                               type="hidden"
+                               name="mddqprint[remarks]"
+                               value="abccc"
+                        />
+                        <input id="box-dataprice" class="hidden"
+                               type="hidden"
+                               name="mddqprint_price"
+                               value="<?php echo $price_product ?>"
+                        />
+                        <input id="box-workspace" class="hidden"
+                               type="hidden"
+                               name="mddqprint_workspace"
+                               value="<?php echo $workspace_id ?>"
+                        />
+                        <input id="boxo-product"
+                               type="hidden"
+                               name="mddqprint_product"
+                               value="<?php echo $_product->getId()?>"
+                        />
+                    </div>
+                <?php endif;?>
+            <?php endif; ?>
+        </div>
+    </div>
+<?php endif; ?>
+<script type="text/x-magento-init">
+    {
+        "#product_addtocart_form": {
+            "Magento_Catalog/js/validate-product": {}
+        }
+    }
+</script>

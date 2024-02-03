@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="page.top">
+            <container name="banner.home" htmlClass="box-banner-home" htmlTag="div">
+                <block class="Magento\Cms\Block\Block" name="banner.text.top" after="-">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">banner_text_top</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Cms\Block\Block" name="block.page.step" after="-">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">block_step</argument>
+                    </arguments>
+                </block>
+            </container>
+        </referenceContainer>
+        <referenceContainer name="page.bottom">
+            <block class="Magento\Cms\Block\Block" name="block_description_content" before="-">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">block_description_content</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>
