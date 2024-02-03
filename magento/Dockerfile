@@ -37,6 +37,9 @@ COPY php.ini /etc/php/7.4/apache2/conf.d/
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+# Copy auth.json for Magento Marketplace authentication
+COPY auth.json /var/www/html/auth.json
+
 # Run composer install
 RUN composer install
 
