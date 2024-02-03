@@ -43,6 +43,31 @@ COPY auth.json /var/www/html/auth.json
 # Run composer install
 RUN composer install
 
+# Run Magento setup command with environment variables
+RUN php bin/magento setup:install \
+    --db-host=${MAGENTO_DB_HOST} \
+    --db-name=${MAGENTO_DB_NAME} \
+    --db-user=${MAGENTO_DB_USER} \
+    --db-password=${MAGENTO_DB_PASSWORD} \
+    # Add other setup options as needed \
+    --base-url=http://{MAGENTO_DOMAIN}/ \
+    --base-url-secure=https://{MAGENTO_DOMAIN}/ \
+    --admin-user=admin123 \
+    --admin-password=admin123 \
+    --admin-email=admin1@boxoprint.neotiq.com \
+    --admin-firstname=Admin \
+    --admin-lastname=User \
+    --backend-frontname=admin \
+    --language=fr_FR \
+    --currency=EUR \
+    --timezone=Europe/Paris \
+    --use-rewrites=1 \
+    --search-engine=elasticsearch7 --elasticsearch-host="localhost" --elasticsearch-port=9200
+
+RUN php bin/magento indexer:reindex
+RUN php bin/magento setup:upgrade
+RUN php bin/magento setup:static-content:deploy -f fr_FR en_US
+RUN php bin/magento cache:flush
 # Expose port 80
 EXPOSE 80
 
