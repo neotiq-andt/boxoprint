@@ -4,7 +4,15 @@ set -e
 if [ ! -e /var/www/html/magento-setup-done ]; then
 
   # Wait for MySQL to be ready
-  wait-for-it mysql:3306
+ # wait-for-it mysql:3306
+ # Function to check if MySQL is ready
+wait_for_mysql() {
+    until mysqladmin ping -hmysql -udockertest -pdockertest_password --silent; do
+        echo "MySQL is not available - sleeping"
+        sleep 5
+    done
+    echo "MySQL is ready!"
+}
 
   # Run Magento setup command
   php bin/magento setup:install \
@@ -29,9 +37,14 @@ if [ ! -e /var/www/html/magento-setup-done ]; then
   touch /var/www/html/magento-setup-done
 fi
 
+chown -R www-data:www-data /var/www/html
+chmod -R 775 var/page_cache
+
 php bin/magento indexer:reindex
 php bin/magento setup:upgrade
 php bin/magento setup:static-content:deploy -f fr_FR en_US
 php bin/magento cache:flush
+
+
 # Start Apache
 apache2-foreground
