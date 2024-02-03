@@ -29,6 +29,7 @@ services:
       MAGENTO_DB_USER: dockertest
       MAGENTO_DB_PASSWORD: dockertest_password
       MAGENTO_DOMAIN: boxoprint.neotiq.net
+      MAGENTO_ELASTICSEARCH_HOST: elasticsearch
     depends_on:
       - mysql
       - elasticsearch

@@ -50,8 +50,8 @@ RUN php bin/magento setup:install \
     --db-user=${MAGENTO_DB_USER} \
     --db-password=${MAGENTO_DB_PASSWORD} \
     # Add other setup options as needed \
-    --base-url=http://{MAGENTO_DOMAIN}/ \
-    --base-url-secure=https://{MAGENTO_DOMAIN}/ \
+    --base-url=http://${MAGENTO_DOMAIN}/ \
+    --base-url-secure=https://${MAGENTO_DOMAIN}/ \
     --admin-user=admin123 \
     --admin-password=admin123 \
     --admin-email=admin1@boxoprint.neotiq.com \
@@ -62,7 +62,7 @@ RUN php bin/magento setup:install \
     --currency=EUR \
     --timezone=Europe/Paris \
     --use-rewrites=1 \
-    --search-engine=elasticsearch7 --elasticsearch-host="localhost" --elasticsearch-port=9200
+    --search-engine=elasticsearch7 --elasticsearch-host=${MAGENTO_ELASTICSEARCH_HOST} --elasticsearch-port=9200
 
 RUN php bin/magento indexer:reindex
 RUN php bin/magento setup:upgrade
