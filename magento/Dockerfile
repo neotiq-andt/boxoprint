@@ -33,7 +33,7 @@ COPY . .
 RUN chown -R www-data:www-data .
 
 # Configure PHP settings
-COPY php.ini /etc/php/7.4/apache2/conf.d/
+COPY php.ini /usr/local/etc/php/
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
