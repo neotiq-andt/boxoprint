@@ -17,6 +17,11 @@ RUN apt-get update && apt-get install -y \
     wait-for-it \
     && docker-php-ext-install -j$(nproc) iconv pdo pdo_mysql mysqli gd intl soap bcmath zip opcache xsl sockets
 
+# Install MySQL client tools
+RUN apt-get update \
+    && apt-get install -y default-mysql-client \
+    && rm -rf /var/lib/apt/lists/*
+    
 # Enable Apache modules
 RUN a2enmod rewrite
 
