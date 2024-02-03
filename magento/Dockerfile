@@ -47,7 +47,7 @@ RUN composer install
 COPY magento-setup.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/magento-setup.sh
 
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/magento-setup.sh"]
 # Run Magento setup command with environment variables
 # RUN php bin/magento setup:install \
 #     --db-host=${MAGENTO_DB_HOST} \
