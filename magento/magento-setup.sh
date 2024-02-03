@@ -1,10 +1,5 @@
 #!/bin/bash
 set -e
-
-if [ ! -e /var/www/html/magento-setup-done ]; then
-
-  # Wait for MySQL to be ready
- # wait-for-it mysql:3306
  # Function to check if MySQL is ready
 wait_for_mysql() {
     until mysqladmin ping -hmysql -udockertest -pdockertest_password --silent; do
@@ -13,6 +8,12 @@ wait_for_mysql() {
     done
     echo "MySQL is ready!"
 }
+
+if [ ! -e /var/www/html/magento-setup-done ]; then
+
+  # Wait for MySQL to be ready
+  # wait-for-it mysql:3306
+  wait_for_mysql
 
   # Run Magento setup command
   php bin/magento setup:install \
