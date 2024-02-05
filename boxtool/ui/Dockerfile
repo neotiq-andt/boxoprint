@@ -12,7 +12,7 @@ RUN { \
         echo 'PORT=8081'; \
         echo 'REACT_APP_KEYSECRET="m5QvrtDeb6YZES9t427eScEcu5CNWVfu"'; \
         echo 'REACT_APP_ISCHECKIFRAME=false'; \
-        echo 'BACKEND_HOST=${BACKEND_HOST}'; \
+        echo 'API=${BACKEND_HOST}'; \
     } > .env
 
 
