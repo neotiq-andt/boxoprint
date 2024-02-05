@@ -17,3 +17,5 @@ RUN { \
 
 # Build the React app
 RUN npm run build
+
+COPY ./build /var/html/pub/build
