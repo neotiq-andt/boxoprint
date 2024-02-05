@@ -11,6 +11,7 @@
       "bcrypt": "3.0.6",
       "child_process": "^1.0.2",
       "cors": "^2.8.5",
+      "dotenv": "^16.4.1",
       "emailjs": "^2.2.0",
       "enquirer": "^2.3.5",
       "express": "^4.17.1",

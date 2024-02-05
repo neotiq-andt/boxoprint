@@ -13,6 +13,8 @@ const generator = require('generate-password');
 const http = require('http');
 const fs = require('fs');
 
+require('dotenv').config()
+
 // Constants
 const PORT = 8082;
 const HOST = '0.0.0.0';
@@ -20,10 +22,10 @@ const hostname = 'cartonnages 3D';
 
 // configurations
 const mysqlConfiguration = {
-    host: '127.0.0.1',
-    user: 'root',
-    password: '',
-    database: 'boxdemo'
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
 };
 const sessionConfiguration = {
     sessions: new cache(),
@@ -58,7 +60,7 @@ const path_www = process.env.PATH_WWW || require('path').join(__dirname, "../../
 
 http.createServer({}, app).listen(PORT, HOST);
 
-console.log('Running on https://' + HOST + ':' + PORT);
+console.log('Running on http://' + HOST + ':' + PORT);
 
 app.use(bodyParser.json({limit: '100mb'})); // support json encoded bodies
 app.use(bodyParser.urlencoded({limit: '100mb',  extended: true })); // support encoded bodies

@@ -36,16 +36,22 @@ if [ ! -e /var/www/html/magento-setup-done ]; then
   --search-engine=elasticsearch7 --elasticsearch-host=$MAGENTO_ELASTICSEARCH_HOST --elasticsearch-port=9200
   # Create a flag file to indicate that the setup has been completed
   touch /var/www/html/magento-setup-done
+
+  # Copy static content from 'pub' to 'magento/pub', including hidden files
+  cp -R /var/www/pub/* /var/www/html/magento/pub/
+  rm -R /var/www/pub
 fi
 
-chown -R www-data:www-data /var/www/html
-chmod -R 775 var/page_cache
+# chown -R www-data:www-data /var/www/html
+# chmod -R 775 var/page_cache
 
 php bin/magento indexer:reindex
 php bin/magento setup:upgrade
 php bin/magento setup:static-content:deploy -f fr_FR en_US
 php bin/magento cache:flush
 
+chown -R www-data:www-data /var/www/html
+chmod -R 775 var/page_cache
 
 # Start Apache
 apache2-foreground
