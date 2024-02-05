@@ -43,16 +43,14 @@ services:
       BACKEND_DB_NAME: ${DB_NAME}
       BACKEND_DB_USER: ${DB_USER}
       BACKEND_DB_PASSWORD: ${DB_PASSWORD}
+      BACKEND_HOST: ${BACKEND_HOST}
     depends_on:
         - mysql
   frontend:
     build:
       context: ./boxtool/ui
-      # environment:
-      #   BACKEND_DB_HOST: mysql
-      #   BACKEND_DB_NAME: ${DB_NAME}
-      #   BACKEND_DB_USER: ${DB_USER}
-      #   BACKEND_DB_PASSWORD: ${DB_PASSWORD}
+      environment:
+        BACKEND_HOST: ${BACKEND_HOST}
     depends_on:
       - mysql
       - backend
