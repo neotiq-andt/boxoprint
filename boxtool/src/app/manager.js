@@ -6,7 +6,7 @@ const dbConfiguration = {
 };
 
 const random = require('random');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const saltRounds = 10;
 
 let users = new require('./users').Users(dbConfiguration, function() {

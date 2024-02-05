@@ -14,7 +14,8 @@ RUN apt-get update && apt-get install -y \
     unzip \
     curl \
     git \
-    wait-for-it \
+    build-essential \
+    python \
     && docker-php-ext-install -j$(nproc) iconv pdo pdo_mysql mysqli gd intl soap bcmath zip opcache xsl sockets
 
 # Install MySQL client tools
