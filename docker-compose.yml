@@ -49,8 +49,8 @@ services:
   frontend:
     build:
       context: ./boxtool/ui
-      environment:
-        BACKEND_HOST: ${BACKEND_HOST}
+    environment:
+      BACKEND_HOST: ${BACKEND_HOST}
     depends_on:
       - mysql
       - backend
