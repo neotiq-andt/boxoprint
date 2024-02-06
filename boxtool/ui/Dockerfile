@@ -13,6 +13,7 @@ ARG BACKEND_HOST
 ENV BACKEND_HOST ${BACKEND_HOST}
 
 RUN chmod +x init-env.sh
+RUN ./init-env.sh
 
 # Build the React app
 RUN npm run build

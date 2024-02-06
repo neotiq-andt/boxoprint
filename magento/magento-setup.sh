@@ -2,7 +2,7 @@
 set -e
  # Function to check if MySQL is ready
 wait_for_mysql() {
-    until mysqladmin ping -hmysql -udockertest -pdockertest_password --silent; do
+    until mysqladmin ping -hmysql -u$MAGENTO_DB_USER -p$MAGENTO_DB_PASSWORD --silent; do
         echo "MySQL is not available - sleeping"
         sleep 5
     done

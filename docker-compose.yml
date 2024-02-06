@@ -21,6 +21,8 @@ services:
 
   magento:
     build: ./magento
+    volumes:
+      - fe_build: /var/www/html/pub/build
     ports:
       - "80:80"
     environment:
@@ -51,9 +53,12 @@ services:
       context: ./boxtool/ui
       args: 
         BACKEND_HOST: ${BACKEND_HOST}
+    volumes:
+      - fe_build: /var/www/boxtool/ui/build
     depends_on:
       - mysql
       - backend
       - magento
-        
+volumes:
+  fe_build:        
 
