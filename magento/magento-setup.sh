@@ -22,25 +22,28 @@ if [ ! -e /var/www/html/magento-setup-done ]; then
   --db-user=$MAGENTO_DB_USER \
   --db-password=$MAGENTO_DB_PASSWORD \
   --base-url=http://$MAGENTO_DOMAIN/ \
-  --base-url-secure=https://$MAGENTO_DOMAIN/ \
-  --admin-user=admin123 \
+  --admin-user=adminpackrette \
   --admin-password=admin123 \
-  --admin-email=admin1@boxoprint.neotiq.com \
+  --admin-email=admin1@vps.packrette.fr \
   --admin-firstname=Admin \
-  --admin-lastname=User \
+  --admin-lastname=Packrette \
   --backend-frontname=admin \
   --language=fr_FR \
   --currency=EUR \
   --timezone=Europe/Paris \
   --use-rewrites=1 \
   --search-engine=elasticsearch7 --elasticsearch-host=$MAGENTO_ELASTICSEARCH_HOST --elasticsearch-port=9200
+  #--base-url-secure=https://$MAGENTO_DOMAIN/ \
   # Create a flag file to indicate that the setup has been completed
   touch /var/www/html/magento-setup-done
 
   # Copy static content from 'pub' to 'magento/pub', including hidden files
-  cp -R /var/www/html/magento/boxopub/* /var/www/html/magento/pub/
-  rm -R /var/www/html/magento/boxopub
+  #cp -R /var/www/html/magento/boxopub/* /var/www/html/pub/
+  #rm -R /var/www/html/magento/boxopub
 fi
+  # Copy static content from 'pub' to 'magento/pub', including hidden files
+  cp -R /var/www/html/boxopub/* /var/www/html/pub/
+  #rm -R /var/www/html/magento/boxopub
 
 # chown -R www-data:www-data /var/www/html
 # chmod -R 775 var/page_cache

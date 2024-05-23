@@ -25,12 +25,13 @@ services:
       - fe_build:/var/www/html/pub/build
     ports:
       - "80:80"
+      - "443:443"
     environment:
       MAGENTO_DB_HOST: mysql
       MAGENTO_DB_NAME: ${DB_NAME}
       MAGENTO_DB_USER: ${DB_USER}
       MAGENTO_DB_PASSWORD: ${DB_PASSWORD}
-      MAGENTO_DOMAIN: boxoprint.neotiq.net
+      MAGENTO_DOMAIN: ${BACKEND_HOST}
       MAGENTO_ELASTICSEARCH_HOST: elasticsearch
     depends_on:
       - mysql
