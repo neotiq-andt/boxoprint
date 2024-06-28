@@ -19,7 +19,8 @@ export const UI_BUTTON_SIZE = "tiny";
 
 // api
 //export const apiUrl = 'http://localhost:8082';
-export const apiUrl = `https://${process.env.API}/boxo_api`;
+// export const apiUrl = `https://${process.env.API}/boxo_api`;
+export const apiUrl = 'http://54.38.65.233:8082';
 
 // Textbox
 export const Fonts = [

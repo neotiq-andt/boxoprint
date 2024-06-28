@@ -27,15 +27,16 @@ RUN apt-get update \
     
 # Enable Apache modules
 RUN a2enmod ssl rewrite proxy proxy_http
-RUN mkdir -p /etc/apache2/ssl
-RUN openssl genrsa -des3 -passout pass:x -out server.pass.key 2048 && \
-    openssl rsa -passin pass:x -in server.pass.key -out server.key && \
-    rm server.pass.key && \
-    openssl req -new -key server.key -out server.csr \
-        -subj "/C=FR/ST=Paris/L=Paris/O=Boxoprint/OU=IT Department/CN=packrette.fr" && \
-    openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt && \
-    cp server.key /etc/ssl/private/apache-selfsigned.key && \
-    cp server.crt /etc/ssl/certs/apache-selfsigned.crt
+# RUN mkdir -p /etc/apache2/ssl
+# RUN openssl genrsa -des3 -passout pass:x -out server.pass.key 2048 && \
+#     openssl rsa -passin pass:x -in server.pass.key -out server.key && \
+#     rm server.pass.key && \
+#     openssl req -new -key server.key -out server.csr \
+#         -subj "/C=FR/ST=Paris/L=Paris/O=Boxoprint/OU=IT Department/CN=vps.packrette.fr" && \
+#     openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt && \
+#     cp server.key /etc/ssl/private/apache-selfsigned.key && \
+#     cp server.crt /etc/ssl/certs/apache-selfsigned.crt
+RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048  -subj "/C=FR/ST=Paris/L=Paris/O=Boxoprint/OU=ITNeotiq/CN=vps.packrette.fr" -keyout /etc/ssl/private/apache-selfsigned.key -out /etc/ssl/certs/apache-selfsigned.crt
 # Copy Apache configuration
 COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
 

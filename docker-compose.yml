@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   mysql:
     build:
@@ -49,13 +47,18 @@ services:
       - "8082:8082"  
     depends_on:
         - mysql
-  frontend:
+  frontend:  
     build:
       context: ./boxtool/ui
       args: 
         BACKEND_HOST: ${BACKEND_HOST}
     volumes:
       - fe_build:/var/www/boxtool/ui/build
+    ports:
+      - "8081:8081"  
+    stdin_open: true
+    tty: true
+    command: npm start
     depends_on:
       - mysql
       - backend
