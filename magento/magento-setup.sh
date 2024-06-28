@@ -42,7 +42,7 @@ if [ ! -e /var/www/html/magento-setup-done ]; then
   #rm -R /var/www/html/magento/boxopub
 fi
   # Copy static content from 'pub' to 'magento/pub', including hidden files
-  cp -R /var/www/html/boxopub/* /var/www/html/pub/
+  # cp -R /var/www/html/boxopub/* /var/www/html/pub/
   #rm -R /var/www/html/magento/boxopub
 
 # chown -R www-data:www-data /var/www/html
