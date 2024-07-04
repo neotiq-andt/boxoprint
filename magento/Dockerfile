@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y \
     nano \
     build-essential \
     python \
-    openssl \
+    # openssl \
     && docker-php-ext-install -j$(nproc) iconv pdo pdo_mysql mysqli gd intl soap bcmath zip opcache xsl sockets
 
 # Install MySQL client tools
@@ -26,19 +26,8 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
     
 # Enable Apache modules
-RUN a2enmod ssl rewrite proxy proxy_http
-# RUN mkdir -p /etc/apache2/ssl
-# RUN openssl genrsa -des3 -passout pass:x -out server.pass.key 2048 && \
-#     openssl rsa -passin pass:x -in server.pass.key -out server.key && \
-#     rm server.pass.key && \
-#     openssl req -new -key server.key -out server.csr \
-#         -subj "/C=FR/ST=Paris/L=Paris/O=Boxoprint/OU=IT Department/CN=vps.packrette.fr" && \
-#     openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt && \
-#     cp server.key /etc/ssl/private/apache-selfsigned.key && \
-#     cp server.crt /etc/ssl/certs/apache-selfsigned.crt
-RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048  -subj "/C=FR/ST=Paris/L=Paris/O=Boxoprint/OU=ITNeotiq/CN=vps.packrette.fr" -keyout /etc/ssl/private/apache-selfsigned.key -out /etc/ssl/certs/apache-selfsigned.crt
-# Copy Apache configuration
-COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
+RUN a2enmod ssl rewrite proxy proxy_http proxy_ajp deflate headers proxy_balancer proxy_connect
+
 
 # Copy boxo default pub data
 #COPY ../data-init/pub /var/www/
@@ -67,32 +56,10 @@ RUN composer install
 COPY magento-setup.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/magento-setup.sh
 
-ENTRYPOINT ["/usr/local/bin/magento-setup.sh"]
-# Run Magento setup command with environment variables
-# RUN php bin/magento setup:install \
-#     --db-host=${MAGENTO_DB_HOST} \
-#     --db-name=${MAGENTO_DB_NAME} \
-#     --db-user=${MAGENTO_DB_USER} \
-#     --db-password=${MAGENTO_DB_PASSWORD} \
-#     # Add other setup options as needed \
-#     --base-url=http://${MAGENTO_DOMAIN}/ \
-#     --base-url-secure=https://${MAGENTO_DOMAIN}/ \
-#     --admin-user=admin123 \
-#     --admin-password=admin123 \
-#     --admin-email=admin1@boxoprint.neotiq.com \
-#     --admin-firstname=Admin \
-#     --admin-lastname=User \
-#     --backend-frontname=admin \
-#     --language=fr_FR \
-#     --currency=EUR \
-#     --timezone=Europe/Paris \
-#     --use-rewrites=1 \
-#     --search-engine=elasticsearch7 --elasticsearch-host=${MAGENTO_ELASTICSEARCH_HOST} --elasticsearch-port=9200
+# Copy Apache configuration
+COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
 
-# RUN php bin/magento indexer:reindex
-# RUN php bin/magento setup:upgrade
-# RUN php bin/magento setup:static-content:deploy -f fr_FR en_US
-# RUN php bin/magento cache:flush
+ENTRYPOINT ["/usr/local/bin/magento-setup.sh"]
 
 # Expose port 80
 EXPOSE 80

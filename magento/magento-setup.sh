@@ -21,7 +21,7 @@ if [ ! -e /var/www/html/magento-setup-done ]; then
   --db-name=$MAGENTO_DB_NAME \
   --db-user=$MAGENTO_DB_USER \
   --db-password=$MAGENTO_DB_PASSWORD \
-  --base-url=http://vps.packrette.fr/ \
+  --base-url=http://$MAGENTO_DOMAIN/ \
   --admin-user=adminpackrette \
   --admin-password=admin123 \
   --admin-email=admin1@vps.packrette.fr \
@@ -33,7 +33,7 @@ if [ ! -e /var/www/html/magento-setup-done ]; then
   --timezone=Europe/Paris \
   --use-rewrites=1 \
   --search-engine=elasticsearch7 --elasticsearch-host=$MAGENTO_ELASTICSEARCH_HOST --elasticsearch-port=9200 \
-  --base-url-secure=https://vps.packrette.fr/ 
+  --base-url-secure=https://$MAGENTO_DOMAIN/ 
   # Create a flag file to indicate that the setup has been completed
   touch /var/www/html/magento-setup-done
 
