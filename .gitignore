@@ -1,5 +1,8 @@
 
 .env
+boxotemplates/
+certbot/
+letsencrypt/
 
 #magento
 magento/.buildpath

@@ -25,6 +25,7 @@ services:
     build: ./magento
     volumes:
       - ${PWD}/letsencrypt/:/var/www/letsencrypt
+      - ${PWD}/boxtool/templates/:/var/www/boxtool/backend/src/app/templates
     ports:
       - "80:80"
       - "443:443"
@@ -33,7 +34,7 @@ services:
       MAGENTO_DB_NAME: ${DB_NAME}
       MAGENTO_DB_USER: ${DB_USER}
       MAGENTO_DB_PASSWORD: ${DB_PASSWORD}
-      MAGENTO_DOMAIN: ${BACKEND_HOST}
+      MAGENTO_DOMAIN: ${MAGENTO_HOST}
       MAGENTO_ELASTICSEARCH_HOST: elasticsearch
     container_name: magento
     depends_on:
@@ -50,6 +51,8 @@ services:
         BACKEND_DB_USER: ${DB_USER}
         BACKEND_DB_PASSWORD: ${DB_PASSWORD}
         BACKEND_DB_HOST: mysql
+    volumes:
+      - ${PWD}/boxtool/templates/:/var/www/boxtool/backend/app/templates
     container_name: backend
     restart: unless-stopped
     depends_on:

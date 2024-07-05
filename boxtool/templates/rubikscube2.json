@@ -1,0 +1,35 @@
+{
+    "version": 1,
+    "dev": true,
+    "name" : "Rubikscube 2",
+    "filename" : "rubikscube2.js",
+    "render" : {
+	"function" : "rubikscube",
+	"args" : [0, 0, 100, 100, 100]
+    },
+    "conf3D" : {
+        "thickness": 0.5,
+	"thickness_color": "#FFFFFF",
+	"base_id": "C",
+	    "public": {
+		"A sur B": { "label": "Rabat", "min": -90, "max": 135 },
+		"G sur D": { "label": "Rabat interne", "min": -135, "max": 91 }
+	    },
+	    "presets": {
+		"default": {
+		    "label": "Boite fermée",
+		    "0": {
+			"A sur B": -90,
+			"B sur A": 90,
+			"B sur C": -90,
+			"C sur B": 90,
+			"D sur C": 90,
+			"E sur C": 90,
+			"F sur C": -90,
+			"C sur D": -90,
+			"G sur D": 91
+		    }
+		}
+	    }
+    }
+}

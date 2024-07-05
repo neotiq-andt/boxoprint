@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "dev": true,
+  "name" : "Etui fond automatique (V2)",
+  "filename" : "Berlingot.js",
+  "render" : {
+    "function" : "DesignBoxV2",
+    "args" : [0, 0, 100, 100, 30]
+  },
+  "conf3D" : {
+    "thickness": 1,
+    "thickness_color": "#FFFFFF",
+    "base_id": "1",
+    "public": {
+    },
+    "presets": {
+      "default": {
+        "label": "Boite fermée",
+        "0": {
+          "0 sur 1": -180,
+          "2 sur 1": -180,
+          "3 sur 1": 0,
+          "4 sur 1": 0,
+          "5 sur 2": 0,
+          "6 sur 2": 0
+        }
+      }
+    }
+  }
+}
+
+

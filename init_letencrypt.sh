@@ -1,3 +1,5 @@
+source .env
+
 docker image build -t app .
 
 docker container run \
@@ -16,8 +18,8 @@ docker container run \
     certbot/certbot certonly \
     --webroot \
     --webroot-path=/data/letsencrypt \
-    --email quynhnd@neotiq.com --agree-tos --no-eff-email \
-    -d backend.packrette.fr 
+    --email $EMAIL_SSL --agree-tos --no-eff-email \
+    -d $MAGENTO_HOST 
 
 docker container run \
     -it \
@@ -27,8 +29,8 @@ docker container run \
     certbot/certbot certonly \
     --webroot \
     --webroot-path=/data/letsencrypt \
-    --email quynhnd@neotiq.com --agree-tos --no-eff-email \
-    -d vps.packrette.fr 
+    --email $EMAIL_SSL --agree-tos --no-eff-email \
+    -d $BACKEND_HOST 
 
 docker container run \
     -it \
@@ -38,7 +40,7 @@ docker container run \
     certbot/certbot certonly \
     --webroot \
     --webroot-path=/data/letsencrypt \
-    --email quynhnd@neotiq.com --agree-tos --no-eff-email \
-    -d frontend.packrette.fr 
+    --email $EMAIL_SSL --agree-tos --no-eff-email \
+    -d $FRONTEND_HOST
 
 docker rm $(docker stop $(docker ps -a -q --filter ancestor=app --format="{{.ID}}"))
