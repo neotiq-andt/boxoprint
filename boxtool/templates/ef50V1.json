@@ -1,0 +1,45 @@
+{
+    "version": 1,
+    "dev": true,
+    "name" : "Etui fond automatique (V1)",
+    "filename" : "ef50V1.js",
+    "render" : {
+	"function" : "DesignBox",
+	"args" : [0, 0, 125, 70, 100]
+    },
+    "conf3D" : {
+        "thickness": 1,
+        "thickness_color": "#FFFFFF",
+		"base_id": "1",
+	    "public": {
+		"5 sur 1": { "label": "Patte rentrante supérieure", "min": -30, "max": 90 },
+		"7 sur 2": { "label": "rabat droite", "min": -30, "max": 90 },
+		"8 sur 4": { "label": "rabat gauche", "min": -30, "max": 90 },
+        "10 sur 9": { "label": "Rabat inférieur droit", "min": 0, "max": 45 },
+        "13 sur 12": { "label": "Rabat inférieur gauche", "min": 0, "max": 45 }
+	    },
+	    "presets": {
+		"default": {
+		    "label": "Boite fermée",
+		    "0": {
+			"0 sur 1": -93,
+			"2 sur 1": 90,
+			"3 sur 2": 90,
+			"4 sur 3": 90,
+			"5 sur 1": 30,
+			"6 sur 5": 90,
+			"7 sur 2": 90,
+			"8 sur 4": 90,
+			"9 sur 1": -90,
+			"11 sur 2": -93,
+			"12 sur 3": -90,
+			"14 sur 4": -93,
+            "10 sur 9": 45,
+            "13 sur 12": 45
+			}
+		}
+	    }
+    }
+}
+
+

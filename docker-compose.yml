@@ -9,6 +9,8 @@ services:
       MYSQL_DATABASE: ${DB_NAME}
       MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_PASSWORD}
+    networks:
+      - app-network
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.9.0
@@ -16,11 +18,14 @@ services:
       - discovery.type=single-node
     ports:
       - "9200:9200"
+    networks:
+      - app-network
 
   magento:
     build: ./magento
     volumes:
-      - fe_build:/var/www/html/pub/build
+      - ${PWD}/letsencrypt/:/var/www/letsencrypt
+      - ${PWD}/boxtool/templates/:/var/www/boxtool/backend/src/app/templates
     ports:
       - "80:80"
       - "443:443"
@@ -29,11 +34,15 @@ services:
       MAGENTO_DB_NAME: ${DB_NAME}
       MAGENTO_DB_USER: ${DB_USER}
       MAGENTO_DB_PASSWORD: ${DB_PASSWORD}
-      MAGENTO_DOMAIN: ${BACKEND_HOST}
+      MAGENTO_DOMAIN: ${MAGENTO_HOST}
       MAGENTO_ELASTICSEARCH_HOST: elasticsearch
+    container_name: magento
     depends_on:
       - mysql
       - elasticsearch
+    networks:
+      - app-network
+
   backend:
     build:
       context: ./boxtool/src
@@ -41,21 +50,23 @@ services:
         BACKEND_DB_NAME: ${DB_NAME}
         BACKEND_DB_USER: ${DB_USER}
         BACKEND_DB_PASSWORD: ${DB_PASSWORD}
-        BACKEND_HOST: ${BACKEND_HOST}
         BACKEND_DB_HOST: mysql
-    ports:
-      - "8082:8082"  
+    volumes:
+      - ${PWD}/boxtool/templates/:/var/www/boxtool/backend/app/templates
+    container_name: backend
+    restart: unless-stopped
     depends_on:
         - mysql
+    networks:
+      - app-network
+
   frontend:  
     build:
       context: ./boxtool/ui
       args: 
         BACKEND_HOST: ${BACKEND_HOST}
-    volumes:
-      - fe_build:/var/www/boxtool/ui/build
-    ports:
-      - "8081:8081"  
+    restart: unless-stopped
+    container_name: frontend
     stdin_open: true
     tty: true
     command: npm start
@@ -63,6 +74,8 @@ services:
       - mysql
       - backend
       - magento
-volumes:
-  fe_build:        
-
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge

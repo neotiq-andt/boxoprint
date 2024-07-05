@@ -46,6 +46,9 @@
 				<field id="api_render_workspace" translate="label comment" type="text" sortOrder="200"  showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Api Key Url</label>
                 </field>
+		<field id="api_frontend" translate="label comment" type="text" sortOrder="300"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Api Frontend</label>
+                </field>
             </group>
 			<group id="neotiq_cart" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Cart</label>

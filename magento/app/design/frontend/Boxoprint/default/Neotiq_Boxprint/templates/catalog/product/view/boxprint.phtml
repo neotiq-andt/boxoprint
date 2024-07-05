@@ -136,7 +136,7 @@ $boxo_id = (int)$block->getRequest()->getParam('boxo');
                         var data = {productId:productId};
                         $.ajax({
                             type: "GET",
-                            url: box_url,
+                            url: window.location.pathname,
                             //data: data,
                             showLoader: true,
                             dataType: 'html',

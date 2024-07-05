@@ -1,0 +1,14 @@
+{
+    "version": 1,
+    "dev": true,
+    "name" : "Test",
+    "filename" : "test.js",
+    "render" : {
+	"function" : "epa1",
+	"args" : [0, 0, 100, 100, 50]
+    },
+    "conf3D" : {
+        "thickness": 0.5,
+        "thickness_color": "#FFFFFF"
+    }
+}

@@ -114,6 +114,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
 	public function getBoxprintUrl() {
+	if ($this->neotiqHelperData->getConfig('neotiq_boxprint_config/general/api_frontend')) {
+            return $this->neotiqHelperData->getConfig('neotiq_boxprint_config/general/api_frontend').'/'.self::PATH_TO_TOOL.'/';
+        }
         $base_url = $this->getBaseUrlByType(\Magento\Framework\UrlInterface::URL_TYPE_WEB);
         return $base_url.self::PATH_TO_TOOL.'/';
     }
