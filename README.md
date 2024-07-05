@@ -4,9 +4,19 @@ Dockerized boxoprint project which included magento web and 3Dtool
 
 **INSTALATION GUIDE**
 1. Setup all the system variables in the `.env` file. E.g
+```
+DB_NAME=boxprint
+DB_USER=boxo
+DB_PASSWORD=########
 
+MAGENTO_HOST=vps.packrette.fr
+FRONTEND_HOST=frontend.packrette.fr
+BACKEND_HOST=backend.packrette.fr
+
+EMAIL_SSL=quynhnd@neotiq.com
+```
    
-3. Create certificates for all 3 subdomains by running the command `bash init_letencrypt.sh`. If you already have the certificate, please ignore this step.
+2. Create certificates for all 3 subdomains by running the command `bash init_letencrypt.sh`. If you already have the certificate, please ignore this step.
  
 We have to renew the certificate from 2nd Oct 2024 due to let's encrypt. If you have the better one, please replace the certificate in the "letsencrypt" folder.
 
