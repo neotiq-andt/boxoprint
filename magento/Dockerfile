@@ -18,8 +18,8 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     python \
     # openssl \
-    && docker-php-ext-install -j$(nproc) iconv pdo pdo_mysql mysqli gd intl soap bcmath zip opcache xsl sockets
-
+    && docker-php-ext-install -j$(nproc) iconv pdo pdo_mysql mysqli gd intl soap bcmath zip opcache xsl sockets \
+    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
 # Install MySQL client tools
 RUN apt-get update \
     && apt-get install -y default-mysql-client \
