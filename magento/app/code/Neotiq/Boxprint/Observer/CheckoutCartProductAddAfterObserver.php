@@ -56,12 +56,13 @@ class CheckoutCartProductAddAfterObserver implements ObserverInterface
         }
         $post = $this->_request->getParam('mddqprint');
         $workspaceId = $this->_request->getParam('mddqprint_workspace');
+		$mddqprint_workspace_name = $this->_request->getParam('mddqprint_workspace_name') ? $this->_request->getParam('mddqprint_workspace_name') : '';
         if($workspaceId && is_numeric($workspaceId)) {
             $workspace = $this->neotiqBoxprintHelperData->getWorkspaceById($workspaceId);
             if($workspace) {
                 $additionalOptions[] = [
                     'label' => __('Design'),
-                    'value' => $workspace->getNameProject()
+                    'value' => !empty($workspace->getNameProject()) ? $workspace->getNameProject() : $mddqprint_workspace_name
                 ];
                 $additionalOptions[] = [
                     'label' => __('Réf'),
@@ -81,6 +82,9 @@ class CheckoutCartProductAddAfterObserver implements ObserverInterface
                         $item->getProduct()->setIsSuperMode(true);
                     }
                     $workspace->setData('product_id', $item->getProductId());
+					if(empty($workspace->getNameProject()) && !empty($mddqprint_workspace_name)){
+						$workspace->setData('name_project', $mddqprint_workspace_name);
+					}
                     $workspace->save();
                 //}else{
                 //    $workspace->setData('workspace_price', $product->getPrice());

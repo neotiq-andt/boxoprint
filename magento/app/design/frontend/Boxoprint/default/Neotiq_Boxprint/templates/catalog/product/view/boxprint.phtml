@@ -134,6 +134,7 @@ $boxo_id = (int)$block->getRequest()->getParam('boxo');
                         box_url = '<?php echo $neotiqBoxprintHelperData->getBoxprintUrl()?>' + dq_workspace_id +'?productName='+productName + '&designName=' + dq_desgin_name +'&customerEmail='+'<?php echo $customer_email;?>' + '&formKey=' + dq_form_key + '&baseUrl=' + baseUrl + '&currentUrl=' + currentUrl + '&loginUrl='+loginUrl + '&registerUrl=' + registerUrl + '&productId=' + productId;
                         <?php endif;?>
                         var data = {productId:productId};
+						$("#box-workspace-name").val($('#designName').val());
                         $.ajax({
                             type: "GET",
                             url: window.location.pathname,
